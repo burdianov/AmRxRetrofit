@@ -18,4 +18,7 @@ public class ConstantsManager {
     public static final int REQUEST_PROFILE_PHOTO_CAMERA = 1002;
     public static final String FILE_PROVIDER_AUTHORITY = "com.testography.am_mvp" +
             ".fileprovider";
+
+    public static final String LAST_MODIFIED_HEADER = "Last-Modified";
+    public static final String IF_MODIFIED_SINCE_HEADER = "If-Modified-Since";
 }
