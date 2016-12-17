@@ -23,6 +23,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import rx.Observable;
+
 import static com.testography.am_mvp.data.managers.PreferencesManager.PROFILE_AVATAR_KEY;
 import static com.testography.am_mvp.data.managers.PreferencesManager.PROFILE_FULL_NAME_KEY;
 import static com.testography.am_mvp.data.managers.PreferencesManager.PROFILE_PHONE_KEY;
@@ -86,9 +88,13 @@ public class DataManager {
             DaggerService.registerComponent(DataManagerComponent.class, component);
         }
         component.inject(this);
-        generateMockData();
+//        generateMockData();
 
         initMockUserData();
+    }
+
+    public Observable getProductsObsFromNetwork() {
+        return mRestService.getProductResObs(mPreferencesManager.getLastProductUpdate());
     }
 
     public PreferencesManager getPreferencesManager() {

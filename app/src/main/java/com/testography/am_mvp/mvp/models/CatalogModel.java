@@ -40,4 +40,8 @@ public class CatalogModel extends AbstractModel {
     public void updateProduct(ProductDto product) {
         mDataManager.updateProduct(product);
     }
+
+    public Observable getProductObs() {
+        return mDataManager.getProductsObsFromNetwork();
+    }
 }

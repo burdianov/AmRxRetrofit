@@ -11,7 +11,7 @@ import retrofit2.http.Header;
 import rx.Observable;
 
 public interface RestService {
-    @GET
+    @GET("products")
     Observable<Response<List<ProductRes>>> getProductResObs
             (@Header(ConstantsManager.IF_MODIFIED_SINCE_HEADER) String
                      lastEntityUpdate);
