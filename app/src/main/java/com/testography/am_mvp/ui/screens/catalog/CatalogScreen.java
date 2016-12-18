@@ -3,11 +3,9 @@ package com.testography.am_mvp.ui.screens.catalog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.squareup.picasso.Picasso;
 import com.testography.am_mvp.R;
-import com.testography.am_mvp.data.network.res.ProductRes;
 import com.testography.am_mvp.data.storage.dto.ProductDto;
 import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.di.scopes.CatalogScope;
@@ -19,6 +17,7 @@ import com.testography.am_mvp.mvp.presenters.RootPresenter;
 import com.testography.am_mvp.mvp.presenters.SubscribePresenter;
 import com.testography.am_mvp.mvp.views.IRootView;
 import com.testography.am_mvp.ui.activities.RootActivity;
+import com.testography.am_mvp.ui.screens.auth.AuthScreen;
 import com.testography.am_mvp.ui.screens.product.ProductScreen;
 
 import java.util.List;
@@ -26,7 +25,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.Provides;
+import flow.Flow;
 import mortar.MortarScope;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -84,7 +85,7 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
         @Inject
         CatalogModel mCatalogModel;
 
-        private Subscription mProductListSub;
+        private Subscription mProductSub;
 
         //region ==================== Lifecycle ===================
         @Override
@@ -96,47 +97,20 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
         @Override
         protected void onLoad(Bundle savedInstanceState) {
             super.onLoad(savedInstanceState);
-
-            subscribeOnProductListObs();
+            subscribeOnProductStoObs();
         }
 
         @Override
         protected void onSave(Bundle outState) {
+            mProductSub.unsubscribe();
             super.onSave(outState);
-            mProductListSub.unsubscribe();
-        }
-
-        //endregion
-
-        //region ==================== Subscription ===================
-
-        private void subscribeOnProductListObs() {
-
-            mProductListSub = subscribe(mCatalogModel.getProductListObs(), new
-                    ViewSubscriber<List<ProductDto>>() {
-                        @Override
-                        public void onNext(List<ProductDto> productList) {
-                            if (getView() != null) {
-                                getView().showCatalogView(productList);
-                            }
-                        }
-                    });
         }
 
         //endregion
 
         @Override
         public void clickOnBuyButton(int position) {
-            mCatalogModel.getProductObs()
-                    .doOnNext(o -> Log.e("THREAD", "call: " + Thread.currentThread()))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(o -> {
-                        Log.e("RESPONSE", "call: " + (
-                                (ProductRes) o).getProductName() + " " +
-                                Thread.currentThread().getName());
-                    });
-            /*if (getView() != null) {
+            if (getView() != null) {
                 if (checkUserAuth() && getRootView() != null) {
                     getRootView().showMessage("Item " + mCatalogModel.getProductList()
                             .get(position).getProductName() +
@@ -144,7 +118,34 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
                 } else {
                     Flow.get(getView()).set(new AuthScreen());
                 }
-            }*/
+            }
+        }
+
+        private void subscribeOnProductStoObs() {
+            if (getRootView() != null & getView() != null) {
+                getRootView().showLoad();
+                mProductSub = mCatalogModel.getProductObs()
+                        .toList()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<List<ProductDto>>() {
+                            @Override
+                            public void onCompleted() {
+                                getRootView().hideLoad();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                getRootView().hideLoad();
+                                getRootView().showError(e);
+                            }
+
+                            @Override
+                            public void onNext(List<ProductDto> productDtoList) {
+                                getView().showCatalogView(productDtoList);
+                            }
+                        });
+            }
         }
 
         @Nullable

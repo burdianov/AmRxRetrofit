@@ -3,6 +3,8 @@ package com.testography.am_mvp.data.storage.dto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.testography.am_mvp.data.network.res.ProductRes;
+
 public class ProductDto implements Parcelable {
     private int id;
     private String productName;
@@ -10,6 +12,7 @@ public class ProductDto implements Parcelable {
     private String description;
     private int price;
     private int count;
+    private boolean favorite;
 
     public ProductDto(int id, String productName, String imageUrl, String description, int price, int count) {
         this.id = id;
@@ -20,6 +23,8 @@ public class ProductDto implements Parcelable {
         this.count = count;
     }
 
+    //region ==================== Parcelable ===================
+
     protected ProductDto(Parcel in) {
         id = in.readInt();
         productName = in.readString();
@@ -29,7 +34,6 @@ public class ProductDto implements Parcelable {
         count = in.readInt();
     }
 
-    //region ==================== Parcelable ===================
     public static final Creator<ProductDto> CREATOR = new Creator<ProductDto>() {
         @Override
         public ProductDto createFromParcel(Parcel in) {
@@ -41,6 +45,16 @@ public class ProductDto implements Parcelable {
             return new ProductDto[size];
         }
     };
+
+    public ProductDto(ProductRes productRes, ProductLocalInfo productLocalInfo) {
+        id = productRes.getRemoteId();
+        productName = productRes.getProductName();
+        imageUrl = productRes.getImageUrl();
+        description = productRes.getDescription();
+        price = productRes.getPrice();
+        count = productLocalInfo.getCount();
+        favorite = productLocalInfo.isFavorite();
+    }
 
     @Override
     public int describeContents() {

@@ -1,6 +1,9 @@
 package com.testography.am_mvp.mvp.models;
 
+import com.fernandocejas.frodo.annotation.RxLogObservable;
+import com.testography.am_mvp.data.network.res.ProductRes;
 import com.testography.am_mvp.data.storage.dto.ProductDto;
+import com.testography.am_mvp.data.storage.dto.ProductLocalInfo;
 
 import java.util.List;
 
@@ -41,7 +44,31 @@ public class CatalogModel extends AbstractModel {
         mDataManager.updateProduct(product);
     }
 
-    public Observable getProductObs() {
+    public Observable<ProductDto> getProductObs() {
+        Observable<ProductDto> disk = fromDisk();
+        Observable<ProductRes> network = fromNetwork();
+        Observable<ProductLocalInfo> local = network.flatMap(productRes ->
+                mDataManager.getProductLocalInfoObs(productRes));
+
+        Observable<ProductDto> productFromNetwork =
+                Observable.zip(network, local, ProductDto::new);
+
+        return Observable.merge(disk, productFromNetwork)
+                .distinct(ProductDto::getId);
+    }
+
+    @RxLogObservable
+    public Observable<ProductRes> fromNetwork() {
         return mDataManager.getProductsObsFromNetwork();
+    }
+
+    @RxLogObservable
+    public Observable<ProductDto> fromDisk() {
+        return Observable.defer(() -> {
+            List<ProductDto> diskData = mDataManager.fromDisk();
+            return diskData == null ?
+                    Observable.empty() :
+                    Observable.from(diskData);
+        });
     }
 }

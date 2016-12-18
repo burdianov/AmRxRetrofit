@@ -5,6 +5,10 @@ public class ProductLocalInfo {
     private boolean favorite;
     private int count;
 
+    public ProductLocalInfo() {
+
+    }
+
     public ProductLocalInfo(int remoteId, boolean favorite, int count) {
         this.remoteId = remoteId;
         this.favorite = favorite;

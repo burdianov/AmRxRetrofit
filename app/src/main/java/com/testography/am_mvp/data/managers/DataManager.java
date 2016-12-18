@@ -11,6 +11,7 @@ import com.testography.am_mvp.data.network.RestService;
 import com.testography.am_mvp.data.network.res.ProductRes;
 import com.testography.am_mvp.data.network.res.RestCallTransformer;
 import com.testography.am_mvp.data.storage.dto.ProductDto;
+import com.testography.am_mvp.data.storage.dto.ProductLocalInfo;
 import com.testography.am_mvp.data.storage.dto.UserAddressDto;
 import com.testography.am_mvp.data.storage.dto.UserDto;
 import com.testography.am_mvp.di.DaggerService;
@@ -222,43 +223,43 @@ public class DataManager {
 
     private void generateMockData() {
         mMockProductList = new ArrayList<>();
-        mMockProductList.add(new ProductDto(1,
+        mMockProductList.add(new ProductDto(1, "disk " +
                 getResVal(R.string.product_name_1),
                 getResVal(R.string.product_url_1),
                 getResVal(R.string.lorem_ipsum), 100, 1));
-        mMockProductList.add(new ProductDto(2,
+        mMockProductList.add(new ProductDto(2, "disk " +
                 getResVal(R.string.product_name_2),
                 getResVal(R.string.product_url_2),
                 getResVal(R.string.lorem_ipsum), 100, 1));
-        mMockProductList.add(new ProductDto(3,
+        mMockProductList.add(new ProductDto(3, "disk " +
                 getResVal(R.string.product_name_3),
                 getResVal(R.string.product_url_3),
                 getResVal(R.string.lorem_ipsum), 100, 1));
-        mMockProductList.add(new ProductDto(4,
+        mMockProductList.add(new ProductDto(4, "disk " +
                 getResVal(R.string.product_name_4),
                 getResVal(R.string.product_url_4),
                 getResVal(R.string.lorem_ipsum), 100, 1));
-        mMockProductList.add(new ProductDto(5,
+        mMockProductList.add(new ProductDto(5, "disk " +
                 getResVal(R.string.product_name_5),
                 getResVal(R.string.product_url_5),
                 getResVal(R.string.lorem_ipsum), 100, 1));
-        mMockProductList.add(new ProductDto(6,
+        mMockProductList.add(new ProductDto(6, "disk " +
                 getResVal(R.string.product_name_6),
                 getResVal(R.string.product_url_6),
                 getResVal(R.string.lorem_ipsum), 100, 1));
-        mMockProductList.add(new ProductDto(7,
+        mMockProductList.add(new ProductDto(7, "disk " +
                 getResVal(R.string.product_name_7),
                 getResVal(R.string.product_url_7),
                 getResVal(R.string.lorem_ipsum), 100, 1));
-        mMockProductList.add(new ProductDto(8,
+        mMockProductList.add(new ProductDto(8, "disk " +
                 getResVal(R.string.product_name_8),
                 getResVal(R.string.product_url_8),
                 getResVal(R.string.lorem_ipsum), 100, 1));
-        mMockProductList.add(new ProductDto(9,
+        mMockProductList.add(new ProductDto(9, "disk " +
                 getResVal(R.string.product_name_9),
                 getResVal(R.string.product_url_9),
                 getResVal(R.string.lorem_ipsum), 100, 1));
-        mMockProductList.add(new ProductDto(10,
+        mMockProductList.add(new ProductDto(10, "disk " +
                 getResVal(R.string.product_name_10),
                 getResVal(R.string.product_url_10),
                 getResVal(R.string.lorem_ipsum), 100, 1));
@@ -266,5 +267,15 @@ public class DataManager {
 
     public Retrofit getRetrofit() {
         return mRetrofit;
+    }
+
+    public Observable<ProductLocalInfo> getProductLocalInfoObs(ProductRes productRes) {
+        return Observable.just(getPreferencesManager().getLocalInfo(productRes
+                .getRemoteId()))
+                .flatMap(productLocalInfo ->
+                        productLocalInfo == null ?
+                                Observable.just(new ProductLocalInfo()) :
+                                Observable.just(productLocalInfo)
+                );
     }
 }
