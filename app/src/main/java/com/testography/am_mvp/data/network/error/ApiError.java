@@ -4,5 +4,8 @@ public class ApiError extends Throwable {
     private int statusCode;
     private String message;
 
-    // TODO: 18-Dec-16 implement me
+    @Override
+    public String getMessage() {
+        return message + " statusCode: " + statusCode;
+    }
 }

@@ -12,6 +12,7 @@ import rx.Observable;
 
 public interface RestService {
     @GET("products")
+//    @GET("error/400")
     Observable<Response<List<ProductRes>>> getProductResObs
             (@Header(ConstantsManager.IF_MODIFIED_SINCE_HEADER) String
                      lastEntityUpdate);

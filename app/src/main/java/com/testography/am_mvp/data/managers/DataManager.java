@@ -77,7 +77,7 @@ public class DataManager {
             DaggerService.registerComponent(DataManagerComponent.class, component);
         }
         component.inject(this);
-//        generateMockData();
+        generateMockData();
 
         initMockUserData();
     }
@@ -129,7 +129,7 @@ public class DataManager {
                     saveOnDisk(productRes);
                 })
                 .doOnCompleted(() -> {
-                    generateMockData();
+//                    generateMockData();
                 });
     }
 
