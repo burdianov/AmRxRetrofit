@@ -117,5 +117,6 @@
     <string name="edit_address">Edit address</string>
     <string name="delete_address">Delete address?</string>
     <string name="dummy_content_description">Dummy content description</string>
+    <string name="show_more">Show more</string>
 
 </resources>
