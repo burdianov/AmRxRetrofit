@@ -2,10 +2,14 @@ package com.testography.am_mvp.data.managers;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.testography.am_mvp.App;
 import com.testography.am_mvp.R;
 import com.testography.am_mvp.data.network.RestService;
+import com.testography.am_mvp.data.network.res.ProductRes;
+import com.testography.am_mvp.data.network.res.RestCallTransformer;
 import com.testography.am_mvp.data.storage.dto.ProductDto;
 import com.testography.am_mvp.data.storage.dto.UserAddressDto;
 import com.testography.am_mvp.data.storage.dto.UserDto;
@@ -23,7 +27,9 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import retrofit2.Retrofit;
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 import static com.testography.am_mvp.data.managers.PreferencesManager.PROFILE_AVATAR_KEY;
 import static com.testography.am_mvp.data.managers.PreferencesManager.PROFILE_FULL_NAME_KEY;
@@ -31,10 +37,15 @@ import static com.testography.am_mvp.data.managers.PreferencesManager.PROFILE_PH
 
 public class DataManager {
 
+    private static DataManager sInstance = new DataManager();
+    public static final String TAG = "DataManager";
+
     @Inject
     PreferencesManager mPreferencesManager;
     @Inject
     RestService mRestService;
+    @Inject
+    Retrofit mRetrofit;
 
     private List<ProductDto> mMockProductList;
 
@@ -44,6 +55,31 @@ public class DataManager {
     private Map<String, String> mUserProfileInfo;
     private ArrayList<UserAddressDto> mUserAddresses;
     private Map<String, Boolean> mUserSettings;
+
+    public static DataManager getInstance() {
+        return sInstance;
+    }
+
+    private DataManager() {
+
+        // TODO: 04-Nov-16 the following line MUST BE REFACTORED AS PER DI
+        mAppContext = App.getAppContext();
+
+        DataManagerComponent component = DaggerService.getComponent
+                (DataManagerComponent.class);
+        if (component == null) {
+            component = DaggerDataManagerComponent.builder()
+                    .appComponent(App.getAppComponent())
+                    .localModule(new LocalModule())
+                    .networkModule(new NetworkModule())
+                    .build();
+            DaggerService.registerComponent(DataManagerComponent.class, component);
+        }
+        component.inject(this);
+//        generateMockData();
+
+        initMockUserData();
+    }
 
     private void initMockUserData() {
         mUserProfileInfo = new HashMap<>();
@@ -72,29 +108,37 @@ public class DataManager {
         mUser = new UserDto(mUserProfileInfo, mUserAddresses, mUserSettings);
     }
 
-    public DataManager() {
-
-        // TODO: 04-Nov-16 the following line MUST BE REFACTORED AS PER DI
-        mAppContext = App.getAppContext();
-
-        DataManagerComponent component = DaggerService.getComponent
-                (DataManagerComponent.class);
-        if (component == null) {
-            component = DaggerDataManagerComponent.builder()
-                    .appComponent(App.getAppComponent())
-                    .localModule(new LocalModule())
-                    .networkModule(new NetworkModule())
-                    .build();
-            DaggerService.registerComponent(DataManagerComponent.class, component);
-        }
-        component.inject(this);
-//        generateMockData();
-
-        initMockUserData();
+    public Observable getProductsObsFromNetwork() {
+        return mRestService.getProductResObs(mPreferencesManager.getLastProductUpdate())
+                .compose(new RestCallTransformer<List<ProductRes>>())
+                .doOnNext(productRes -> {
+                    Log.e(TAG, "getProductsObsFromNetwork: " + Thread
+                            .currentThread().getName());
+                })
+                .flatMap(Observable::from)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.io())
+                .doOnNext(productRes -> {
+                    if (!productRes.isActive()) {
+                        //deleteFromDb(productRes);
+                    }
+                })
+                .filter(productRes -> productRes.isActive())
+                .doOnNext(productRes -> {
+                    saveOnDisk(productRes);
+                })
+                .doOnCompleted(() -> {
+                    generateMockData();
+                });
     }
 
-    public Observable getProductsObsFromNetwork() {
-        return mRestService.getProductResObs(mPreferencesManager.getLastProductUpdate());
+    @Nullable
+    public List<ProductDto> fromDisk() {
+        return mMockProductList != null ? mMockProductList : null;
+    }
+
+    private void saveOnDisk(ProductRes productRes) {
+
     }
 
     public PreferencesManager getPreferencesManager() {
@@ -148,7 +192,6 @@ public class DataManager {
         mUserProfileInfo.put(PROFILE_FULL_NAME_KEY, name);
         mUserProfileInfo.put(PROFILE_AVATAR_KEY, avatar);
         mUserProfileInfo.put(PROFILE_PHONE_KEY, phone);
-
     }
 
     public void saveAvatarPhoto(Uri photoUri) {
@@ -219,5 +262,9 @@ public class DataManager {
                 getResVal(R.string.product_name_10),
                 getResVal(R.string.product_url_10),
                 getResVal(R.string.lorem_ipsum), 100, 1));
+    }
+
+    public Retrofit getRetrofit() {
+        return mRetrofit;
     }
 }

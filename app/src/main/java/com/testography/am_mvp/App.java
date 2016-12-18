@@ -21,6 +21,7 @@ import mortar.bundler.BundleServiceRunner;
 public class App extends Application {
     private static SharedPreferences sSharedPreferences;
     private static Context sAppContext;
+    private static Context sContext;
     private MortarScope mRootActivityScope;
     private static RootActivity.RootComponent mRootActivityRootComponent;
 
@@ -43,6 +44,8 @@ public class App extends Application {
 
         createAppComponent();
         createRootActivityComponent();
+
+        sContext = getApplicationContext();
 
         mRootScope = MortarScope.buildRootScope()
                 .withService(DaggerService.SERVICE_NAME, sAppComponent)
@@ -84,5 +87,9 @@ public class App extends Application {
 
     public static RootActivity.RootComponent getRootActivityRootComponent() {
         return mRootActivityRootComponent;
+    }
+
+    public static Context getContext() {
+        return sContext;
     }
 }

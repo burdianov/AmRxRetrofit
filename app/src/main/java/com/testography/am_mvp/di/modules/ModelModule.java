@@ -13,7 +13,7 @@ public class ModelModule {
     @Provides
     @Singleton
     DataManager privateDataManager() {
-        return new DataManager();
+        return DataManager.getInstance();
     }
 
 }

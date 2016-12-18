@@ -27,7 +27,6 @@ import javax.inject.Inject;
 
 import dagger.Provides;
 import mortar.MortarScope;
-import retrofit2.Response;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -134,7 +133,7 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(o -> {
                         Log.e("RESPONSE", "call: " + (
-                                (Response<List<ProductRes>>) o).code() + " " +
+                                (ProductRes) o).getProductName() + " " +
                                 Thread.currentThread().getName());
                     });
             /*if (getView() != null) {
