@@ -38,8 +38,9 @@ public class CatalogModel extends AbstractModel {
     }
 
     public ProductDto getProductById(int productId) {
-        // TODO: 28-Oct-16 get product from datamanager
-        return mDataManager.getProductById(productId);
+
+//        return mDataManager.getProductById(productId);
+        return mDataManager.getPreferencesManager().getProductById(productId);
     }
 
     public void updateProduct(ProductDto product) {
@@ -75,5 +76,9 @@ public class CatalogModel extends AbstractModel {
                     Observable.empty() :
                     Observable.from(diskData);
         });
+    }
+
+    public void updateProductLocalInfo(ProductLocalInfo pli) {
+        mDataManager.getPreferencesManager().updateOrInsertLocalInfo(pli);
     }
 }

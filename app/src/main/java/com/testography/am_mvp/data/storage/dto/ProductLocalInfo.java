@@ -19,8 +19,16 @@ public class ProductLocalInfo {
         return remoteId;
     }
 
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
     public boolean isFavorite() {
         return favorite;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public int getCount() {
@@ -33,5 +41,9 @@ public class ProductLocalInfo {
 
     public void deleteCount() {
         count--;
+    }
+
+    public void setRemoteId(int remoteId) {
+        this.remoteId = remoteId;
     }
 }

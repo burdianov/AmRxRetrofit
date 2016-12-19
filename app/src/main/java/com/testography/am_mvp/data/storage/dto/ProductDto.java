@@ -14,13 +14,15 @@ public class ProductDto implements Parcelable {
     private int count;
     private boolean favorite;
 
-    public ProductDto(int id, String productName, String imageUrl, String description, int price, int count) {
+    public ProductDto(int id, String productName, String imageUrl,
+                      String description, int price, int count, boolean favorite) {
         this.id = id;
         this.productName = productName;
         this.imageUrl = imageUrl;
         this.description = description;
         this.price = price;
         this.count = count;
+        this.favorite = favorite;
     }
 
     //region ==================== Parcelable ===================
@@ -32,6 +34,7 @@ public class ProductDto implements Parcelable {
         description = in.readString();
         price = in.readInt();
         count = in.readInt();
+        favorite = in.readByte() != 0;
     }
 
     public static final Creator<ProductDto> CREATOR = new Creator<ProductDto>() {
@@ -72,6 +75,35 @@ public class ProductDto implements Parcelable {
     }
     //endregion
 
+    //region ==================== Setters ===================
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    //endregion
+
+
     //region ==================== Getters ===================
     public int getId() {
         return id;
@@ -104,5 +136,10 @@ public class ProductDto implements Parcelable {
     public void addProduct() {
         count++;
     }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
     //endregion
 }

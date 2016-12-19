@@ -121,7 +121,7 @@ public class DataManager {
                 .observeOn(Schedulers.io())
                 .doOnNext(productRes -> {
                     if (!productRes.isActive()) {
-                        //deleteFromDb(productRes);
+                        deleteFromDb(productRes);
                     }
                 })
                 .filter(productRes -> productRes.isActive())
@@ -133,13 +133,18 @@ public class DataManager {
                 });
     }
 
+    private void deleteFromDb(ProductRes productRes) {
+        mPreferencesManager.deleteProduct(productRes);
+    }
+
     @Nullable
     public List<ProductDto> fromDisk() {
-        return mMockProductList != null ? mMockProductList : null;
+        return mPreferencesManager.getProductList();
+//        return mMockProductList != null ? mMockProductList : null;
     }
 
     private void saveOnDisk(ProductRes productRes) {
-
+        mPreferencesManager.updateOrInsertProduct(productRes);
     }
 
     public PreferencesManager getPreferencesManager() {
@@ -226,43 +231,55 @@ public class DataManager {
         mMockProductList.add(new ProductDto(1, "disk " +
                 getResVal(R.string.product_name_1),
                 getResVal(R.string.product_url_1),
-                getResVal(R.string.lorem_ipsum), 100, 1));
+                getResVal
+                        (R.string.lorem_ipsum), 100, 1, false));
         mMockProductList.add(new ProductDto(2, "disk " +
                 getResVal(R.string.product_name_2),
                 getResVal(R.string.product_url_2),
-                getResVal(R.string.lorem_ipsum), 100, 1));
+                getResVal
+                        (R.string.lorem_ipsum), 100, 1, false));
         mMockProductList.add(new ProductDto(3, "disk " +
                 getResVal(R.string.product_name_3),
                 getResVal(R.string.product_url_3),
-                getResVal(R.string.lorem_ipsum), 100, 1));
+                getResVal
+                        (R.string.lorem_ipsum), 100, 1, false));
         mMockProductList.add(new ProductDto(4, "disk " +
                 getResVal(R.string.product_name_4),
                 getResVal(R.string.product_url_4),
-                getResVal(R.string.lorem_ipsum), 100, 1));
+                getResVal
+                        (R.string.lorem_ipsum), 100, 1, false));
         mMockProductList.add(new ProductDto(5, "disk " +
                 getResVal(R.string.product_name_5),
                 getResVal(R.string.product_url_5),
-                getResVal(R.string.lorem_ipsum), 100, 1));
+                getResVal
+                        (R.string.lorem_ipsum), 100, 1, false));
         mMockProductList.add(new ProductDto(6, "disk " +
                 getResVal(R.string.product_name_6),
                 getResVal(R.string.product_url_6),
-                getResVal(R.string.lorem_ipsum), 100, 1));
+                getResVal
+                        (R.string.lorem_ipsum), 100, 1, false));
         mMockProductList.add(new ProductDto(7, "disk " +
                 getResVal(R.string.product_name_7),
                 getResVal(R.string.product_url_7),
-                getResVal(R.string.lorem_ipsum), 100, 1));
+                getResVal
+                        (R.string.lorem_ipsum), 100, 1, false));
         mMockProductList.add(new ProductDto(8, "disk " +
                 getResVal(R.string.product_name_8),
                 getResVal(R.string.product_url_8),
-                getResVal(R.string.lorem_ipsum), 100, 1));
+                getResVal
+                        (R.string.lorem_ipsum), 100, 1, false));
         mMockProductList.add(new ProductDto(9, "disk " +
                 getResVal(R.string.product_name_9),
                 getResVal(R.string.product_url_9),
-                getResVal(R.string.lorem_ipsum), 100, 1));
+                getResVal
+                        (R.string.lorem_ipsum), 100, 1, false));
         mMockProductList.add(new ProductDto(10, "disk " +
                 getResVal(R.string.product_name_10),
                 getResVal(R.string.product_url_10),
-                getResVal(R.string.lorem_ipsum), 100, 1));
+                getResVal
+                        (R.string.lorem_ipsum), 100, 1, false));
+
+        mPreferencesManager.generateProductsMockData(mMockProductList);
     }
 
     public Retrofit getRetrofit() {

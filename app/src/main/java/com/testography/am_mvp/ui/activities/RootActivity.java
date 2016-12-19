@@ -244,7 +244,8 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     public void hideLoad() {
         if (mProgressDialog != null) {
             if (mProgressDialog.isShowing()) {
-                mProgressDialog.hide();
+                mProgressDialog.dismiss();
+                mProgressDialog = null;
             }
         }
     }
