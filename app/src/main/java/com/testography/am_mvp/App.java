@@ -22,15 +22,15 @@ public class App extends Application {
     private static SharedPreferences sSharedPreferences;
     private static Context sAppContext;
     private static Context sContext;
+    private static AppComponent sAppComponent;
+    private static RootActivity.RootComponent sRootActivityRootComponent;
+
+    private MortarScope mRootScope;
     private MortarScope mRootActivityScope;
-    private static RootActivity.RootComponent mRootActivityRootComponent;
 
     public static AppComponent getAppComponent() {
         return sAppComponent;
     }
-
-    private static AppComponent sAppComponent;
-    private MortarScope mRootScope;
 
     @Override
     public Object getSystemService(String name) {
@@ -44,6 +44,7 @@ public class App extends Application {
 
         createAppComponent();
         createRootActivityComponent();
+//        createCatalogScreenComponent();
 
         sContext = getApplicationContext();
 
@@ -52,7 +53,7 @@ public class App extends Application {
                 .build("Root");
 
         mRootActivityScope = mRootScope.buildChild()
-                .withService(DaggerService.SERVICE_NAME, mRootActivityRootComponent)
+                .withService(DaggerService.SERVICE_NAME, sRootActivityRootComponent)
                 .withService(BundleServiceRunner.SERVICE_NAME, new BundleServiceRunner())
                 .build(RootActivity.class.getName());
 
@@ -69,6 +70,14 @@ public class App extends Application {
                 .build();
     }
 
+    private void createRootActivityComponent() {
+        sRootActivityRootComponent = DaggerRootActivity_RootComponent.builder()
+                .appComponent(sAppComponent)
+                .rootModule(new RootModule())
+                .picassoCacheModule(new PicassoCacheModule())
+                .build();
+    }
+
     public static SharedPreferences getSharedPreferences() {
         return sSharedPreferences;
     }
@@ -77,16 +86,8 @@ public class App extends Application {
         return sAppContext;
     }
 
-    private void createRootActivityComponent() {
-        mRootActivityRootComponent = DaggerRootActivity_RootComponent.builder()
-                .appComponent(sAppComponent)
-                .rootModule(new RootModule())
-                .picassoCacheModule(new PicassoCacheModule())
-                .build();
-    }
-
     public static RootActivity.RootComponent getRootActivityRootComponent() {
-        return mRootActivityRootComponent;
+        return sRootActivityRootComponent;
     }
 
     public static Context getContext() {

@@ -12,10 +12,12 @@ import com.testography.am_mvp.flow.Screen;
 import com.testography.am_mvp.mvp.models.CatalogModel;
 import com.testography.am_mvp.mvp.presenters.IProductPresenter;
 import com.testography.am_mvp.ui.screens.catalog.CatalogScreen;
+import com.testography.am_mvp.ui.screens.showmore.ShowMoreScreen;
 
 import javax.inject.Inject;
 
 import dagger.Provides;
+import flow.Flow;
 import mortar.MortarScope;
 import mortar.ViewPresenter;
 
@@ -92,7 +94,6 @@ public class ProductScreen extends AbstractScreen<CatalogScreen.Component> {
         protected void onLoad(Bundle savedInstanceState) {
             super.onLoad(savedInstanceState);
             if (getView() != null) {
-//                getView().showProductView(mProduct);
                 getView().showProductView(mCatalogModel.getProductById(mProduct
                         .getId()));
             }
@@ -102,19 +103,13 @@ public class ProductScreen extends AbstractScreen<CatalogScreen.Component> {
         public void clickOnPlus() {
             if (getView() != null) {
                 ProductLocalInfo pli = getView().getProductLocalInfo();
-                pli.addCount();
                 pli.setRemoteId(mProduct.getId());
+                pli.addCount();
                 mCatalogModel.updateProductLocalInfo(pli);
                 getView().updateProductCountView(mCatalogModel.getProductById
                         (mProduct.getId()));
                 // TODO: 19-Dec-16 fix me with realm
             }
-
-//            mProduct.addProduct();
-//            mCatalogModel.updateProduct(mProduct);
-//            if (getView() != null) {
-//                getView().updateProductCountView(mProduct);
-//            }
         }
 
         @Override
@@ -130,13 +125,6 @@ public class ProductScreen extends AbstractScreen<CatalogScreen.Component> {
                     // TODO: 19-Dec-16 fix me with realm
                 }
             }
-//            if (mProduct.getCount() > 0) {
-//                mProduct.deleteProduct();
-//                mCatalogModel.updateProduct(mProduct);
-//                if (getView() != null) {
-//                    getView().updateProductCountView(mProduct);
-//                }
-//            }
         }
 
         public void clickFavorite() {
@@ -145,7 +133,7 @@ public class ProductScreen extends AbstractScreen<CatalogScreen.Component> {
         }
 
         public void clickShowMore() {
-            // TODO: 19-Dec-16 flow show new screen show more
+            Flow.get(getView()).set(new ShowMoreScreen(mProduct));
         }
     }
 

@@ -156,7 +156,7 @@ public class AuthScreen extends AbstractScreen<RootActivity.RootComponent> {
         @Override
         public void clickOnShowCatalog() {
             if (getView() != null && getRootView() != null) {
-                getRootView().showMessage("Show catalog");
+//                getRootView().showMessage("Show catalog");
 
                 if (getRootView() instanceof SplashActivity) {
                     ((SplashActivity) getRootView()).startRootActivity();

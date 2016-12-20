@@ -37,7 +37,9 @@
     <string name="add_to_cart">Add to Cart</string>
     <string name="error_message">Something went wrong, try again later</string>
 
-    <string name="lorem_ipsum">Donec et ex laoreet, aliquet metus in, malesuada ligula. Promto di carste psi</string>
+    <string name="lorem_ipsum">Donec et ex laoreet, aliquet metus in, malesuada
+        ligula. Promto di carste psi. Jacara dikili nihai skarula, hanta
+        buhiskili ba</string>
 
     <!-- Product names -->
     <string name="product_name_1">Monitor</string>
@@ -118,5 +120,7 @@
     <string name="delete_address">Delete address?</string>
     <string name="dummy_content_description">Dummy content description</string>
     <string name="show_more">Show more</string>
+    <string name="tab_label_description">Description</string>
+    <string name="tab_label_comments">Comments</string>
 
 </resources>

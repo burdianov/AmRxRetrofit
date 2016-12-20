@@ -88,5 +88,9 @@
     <dimen name="avatar_margin_top">116dp</dimen>
     <dimen name="collapsing_toolbar_height">180dp</dimen>
     <dimen name="account_avatar_margin_top">110dp</dimen>
+    <dimen name="product_description_card_height">264dp</dimen>
+    <dimen name="product_qty_price_card_height">144dp</dimen>
+    <dimen name="fab_right_space">24dp</dimen>
+    <dimen name="fab_bottom_space">16dp</dimen>
 
 </resources>

@@ -23,6 +23,16 @@
         <item name="android:windowBackground">@drawable/background</item>
     </style>
 
+    <style name="NavigationDrawer" parent="Widget.Design.NavigationView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">left</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="itemIconTint">@color/nav_icon_color_selector</item>
+        <item name="itemBackground">@drawable/nav_drawer_item_selector</item>
+        <item name="itemTextColor">@color/nav_color_selector</item>
+    </style>
+
     <style name="CustomCard">
         <item name="cardBackgroundColor">@android:color/white</item>
         <item name="cardCornerRadius">@dimen/corner_radius_2</item>
@@ -36,21 +46,26 @@
         <item name="android:layout_marginBottom">@dimen/spacing_small_8</item>
     </style>
 
-    <style name="NavigationDrawer" parent="Widget.Design.NavigationView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_gravity">left</item>
-        <item name="android:fitsSystemWindows">true</item>
-        <item name="itemIconTint">@color/nav_icon_color_selector</item>
-        <item name="itemBackground">@drawable/nav_drawer_item_selector</item>
-        <item name="itemTextColor">@color/nav_color_selector</item>
-    </style>
-
     <style name="CustomCard.ProductCard">
         <item name="android:layout_margin">@dimen/spacing_small_8</item>
         <item name="contentPadding">@dimen/spacing_zero</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="CustomCard.ProductDescription">
+        <item name="android:layout_marginLeft">@dimen/spacing_small_8</item>
+        <item name="android:layout_marginRight">@dimen/spacing_small_8</item>
+        <item name="android:layout_marginTop">@dimen/spacing_small_8</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_zero</item>
+        <item name="contentPadding">@dimen/spacing_zero</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="CustomCard.ProductComments">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/spacing_small_8</item>
     </style>
 
     <style name="CountBtn">
@@ -82,6 +97,10 @@
         <item name="android:textColor">@color/grey</item>
         <item name="android:textSize">@dimen/font_small_14</item>
         <item name="android:maxLines">2</item>
+    </style>
+
+    <style name="ProductText.ProductDetailsDescription">
+        <item name="android:maxLines">8</item>
     </style>
 
     <style name="ProductText.LabelPrice">

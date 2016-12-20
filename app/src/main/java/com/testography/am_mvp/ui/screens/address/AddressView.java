@@ -49,6 +49,7 @@ public class AddressView extends RelativeLayout implements IAddressView {
     }
 
     //region ==================== flow view lifecycle callbacks ===================
+
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
@@ -70,6 +71,7 @@ public class AddressView extends RelativeLayout implements IAddressView {
             mPresenter.dropView(this);
         }
     }
+
     //endregion
 
     //region ==================== IAddressView ===================
