@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.testography.am_mvp.R;
+import com.testography.am_mvp.data.storage.dto.ProductDto;
 import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.mvp.views.IShowMoreView;
 
@@ -61,14 +62,20 @@ public class ShowMoreView extends LinearLayout implements IShowMoreView {
     //endregion
 
     @Override
-    public void initView() {
-        mShowMorePager.setAdapter(new ShowMoreAdapter(getContext()));
+    public void initView(ProductDto productDto) {
+        mShowMorePager.setAdapter(new ShowMoreAdapter(getContext(), productDto));
         mShowMoreTabs.setupWithViewPager(mShowMorePager);
     }
 
     @Override
-    public void showFavoriteMessage() {
-        Toast.makeText(getContext(), "FAB button clicked", Toast.LENGTH_LONG).show();
+    public void setFavoriteProduct() {
+        Toast.makeText(getContext(), "Set Favorite Product", Toast.LENGTH_LONG)
+                .show();
+    }
+
+    @Override
+    public void addProductComment() {
+        Toast.makeText(getContext(), "addProductComment", Toast.LENGTH_LONG).show();
     }
 
     @Override

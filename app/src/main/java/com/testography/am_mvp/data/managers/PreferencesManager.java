@@ -221,11 +221,7 @@ public class PreferencesManager {
                 0, false);
         mProductDtoList.add(productDto);
 
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        Gson gson = new Gson();
-        String products = gson.toJson(mProductDtoList);
-        editor.putString(MOCK_PRODUCT_LIST, products);
-        editor.commit();
+        updateMockProductList(mProductDtoList);
     }
 
     public void updateOrInsertLocalInfo(ProductLocalInfo pli) {
@@ -240,24 +236,28 @@ public class PreferencesManager {
                 productDto.setFavorite(pli.isFavorite());
             }
         }
-
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        Gson gson = new Gson();
-        String products = gson.toJson(mProductDtoList);
-        editor.putString(MOCK_PRODUCT_LIST, products);
-        editor.commit();
+        updateMockProductList(mProductDtoList);
     }
 
     public void deleteProduct(ProductRes productRes) {
 
-//        int productPosition = 0;
-//
-//        for (ProductDto productDto : mProductDtoList) {
+        // TODO: 21-Dec-16 shall be fixed with Realm
+//        Iterator<ProductDto> iterator = mProductDtoList.iterator();
+//        ProductDto productDto;
+//        while (iterator.hasNext()) {
+//            productDto = iterator.next();
 //            if (productDto.getId() == productRes.getRemoteId()) {
-//                mProductDtoList.remove(productPosition);
+//                iterator.remove();
 //            }
-//            productPosition++;
 //        }
+    }
+
+    private void updateMockProductList(List<ProductDto> productDtoList) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        Gson gson = new Gson();
+        String products = gson.toJson(productDtoList);
+        editor.putString(MOCK_PRODUCT_LIST, products);
+        editor.commit();
     }
 
     public ProductDto getProductById(int id) {
@@ -270,5 +270,4 @@ public class PreferencesManager {
     }
 
     //endregion
-
 }

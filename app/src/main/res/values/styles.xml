@@ -64,7 +64,7 @@
 
     <style name="CustomCard.ProductComments">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">@dimen/size_huge_128</item>
         <item name="android:padding">@dimen/spacing_small_8</item>
     </style>
 

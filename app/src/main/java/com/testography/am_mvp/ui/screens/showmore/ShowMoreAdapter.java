@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.testography.am_mvp.R;
+import com.testography.am_mvp.data.storage.dto.ProductDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +21,11 @@ public class ShowMoreAdapter extends PagerAdapter {
     public static final int TABS_NUMBER = 2;
 
     private Context mContext;
+    private ProductDto mProductDto;
 
-    public ShowMoreAdapter(Context context) {
+    public ShowMoreAdapter(Context context, ProductDto productDto) {
         mContext = context;
+        mProductDto = productDto;
     }
 
     @Override
@@ -54,6 +58,20 @@ public class ShowMoreAdapter extends PagerAdapter {
             case 0:
                 newView = LayoutInflater.from(mContext).inflate
                         (R.layout.screen_show_more_description, container, false);
+
+                TextView name = (TextView) newView.findViewById(R.id
+                        .product_name_txt);
+                TextView description = (TextView) newView.findViewById(R.id
+                        .product_description_txt);
+                TextView price = (TextView) newView.findViewById(R.id
+                        .product_price_txt);
+                TextView count = (TextView) newView.findViewById(R.id.product_count_txt);
+
+                name.setText(mProductDto.getProductName());
+                description.setText(mProductDto.getDescription());
+                count.setText(Integer.toString(mProductDto.getCount()));
+                price.setText(Integer.toString(mProductDto.getPrice()));
+
                 break;
             case 1:
                 newView = LayoutInflater.from(mContext).inflate

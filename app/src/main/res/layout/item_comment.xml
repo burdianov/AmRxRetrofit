@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:clipToPadding="false"
     android:paddingLeft="@dimen/spacing_small_8"
     android:paddingRight="@dimen/spacing_small_8"
     android:paddingTop="@dimen/spacing_small_8"
-    android:paddingBottom="@dimen/spacing_zero"
+    android:paddingBottom="@dimen/spacing_tiny_4"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -17,12 +18,15 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_weight="2"
+                android:layout_weight="1.5"
                 android:layout_width="@dimen/spacing_zero"
                 android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/avatar_comments_img"
+                    android:layout_width="@dimen/spacing_medium_32"
+                    android:layout_height="@dimen/spacing_medium_32"
+                    android:layout_gravity="center_horizontal"
                     style="@style/Icon"
                     android:layout_marginTop="@dimen/spacing_small_8"
                     android:contentDescription="@string/dummy_content_description"
@@ -30,7 +34,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_weight="8"
+                android:layout_weight="8.5"
                 android:layout_width="@dimen/spacing_zero"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -39,7 +43,7 @@
                     android:id="@+id/user_name_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/color_black"/>
+                    android:textColor="@color/account_title_color"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -57,18 +61,19 @@
                             android:layout_marginTop="@dimen/spacing_medial_24">
 
                             <RatingBar
-                                android:id="@+id/ratingBar"
+                                android:id="@+id/rating_bar_comments"
                                 style="?android:attr/ratingBarStyleSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:numStars="5"
-                                android:rating="3.5"
+                                android:rating="5"
                                 android:stepSize="0.5"/>
                         </RelativeLayout>
 
                         <TextView
                             android:id="@+id/time_txt"
+                            android:textColor="@color/color_grey_lighter"
                             android:text="2 hours ago"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
@@ -80,10 +85,12 @@
 
                 <TextView
                     android:id="@+id/comment_text_txt"
+                    android:textColor="@color/color_grey_darker"
+                    android:text="sdfoij asdoio sasdoasdi sdoiiocvkjsadofi sdoijcjo dsijfoi cifjodi vidjfoijsd kfjisd fisdj fisdfj i uuuuuuuuu uuuuuuu uuuuu"
+                    android:lines="3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
         </LinearLayout>
-
     </android.support.v7.widget.CardView>
-</LinearLayout>
+</FrameLayout>

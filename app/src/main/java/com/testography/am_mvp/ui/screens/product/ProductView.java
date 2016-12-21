@@ -77,6 +77,7 @@ public class ProductView extends LinearLayout implements IProductView {
     //endregion
 
     //region ==================== IProductView ===================
+
     @Override
     public void showProductView(final ProductDto product) {
         mProductNameTxt.setText(product.getProductName());
@@ -88,42 +89,6 @@ public class ProductView extends LinearLayout implements IProductView {
         } else {
             mProductPriceTxt.setText(String.valueOf(product.getPrice() + ".-"));
         }
-
-        //region ==================== TO BE FINE-TUNED ===================
-
-//        DisplayMetrics metrics = new DisplayMetrics();
-//        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//
-//        final int width, height;
-//        if (metrics.widthPixels < metrics.heightPixels) {
-//            width = (int) (metrics.widthPixels / 2f);
-//            height = (int) (width / 1.78f);
-//        } else {
-//            height = (int) (metrics.heightPixels / 5f);
-//            width = (int) (height * 1.78f);
-//        }
-//
-//        mPicasso.load(product.getImageUrl())
-//                .networkPolicy(NetworkPolicy.OFFLINE)
-//                .resize(width, height)
-//                .centerCrop()
-//                .placeholder(R.drawable.placeholder)
-//                .into(mProductImage, new Callback() {
-//                    @Override
-//                    public void onSuccess() {
-//                        Log.e(TAG, "onSuccess: load from cache");
-//                    }
-//
-//                    @Override
-//                    public void onError() {
-//                        mPicasso.load(product.getImageUrl())
-//                                .resize(width, height)
-//                                .centerCrop()
-//                                .placeholder(R.drawable.placeholder)
-//                                .into(mProductImage);
-//                    }
-//                });
-        //endregion
 
         mPicasso.load(product.getImageUrl())
                 .networkPolicy(NetworkPolicy.OFFLINE)
@@ -145,16 +110,6 @@ public class ProductView extends LinearLayout implements IProductView {
                                 .into(mProductImage);
                     }
                 });
-
-//        Glide.with(getActivity())
-//                .load(product.getImageUrl())
-//                .placeholder(R.drawable.placeholder)
-//                .error(R.drawable.placeholder)
-//                .fitCenter()
-//                .dontAnimate()
-////                .crossFade()
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .into(mProductImage);
     }
 
     public ProductLocalInfo getProductLocalInfo() {
@@ -175,9 +130,11 @@ public class ProductView extends LinearLayout implements IProductView {
     public boolean viewOnBackPressed() {
         return false;
     }
+
     //endregion
 
     //region ==================== Events ===================
+
     @OnClick(R.id.plus_btn)
     void clickPlus() {
         mPresenter.clickOnPlus();

@@ -1,7 +1,11 @@
 package com.testography.am_mvp.mvp.views;
 
-public interface IShowMoreView extends IView {
-    void initView();
+import com.testography.am_mvp.data.storage.dto.ProductDto;
 
-    void showFavoriteMessage();
+public interface IShowMoreView extends IView {
+    void initView(ProductDto productDto);
+
+    void setFavoriteProduct();
+
+    void addProductComment();
 }

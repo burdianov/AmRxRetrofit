@@ -98,12 +98,17 @@ public class ShowMoreScreen extends AbstractScreen<RootActivity.RootComponent>
 
         @Override
         protected void onLoad(Bundle savedInstanceState) {
-            getView().initView();
+            getView().initView(mProductDto);
         }
 
         @Override
         public void clickOnFabFavorite() {
-            getView().showFavoriteMessage();
+            getView().setFavoriteProduct();
+        }
+
+        @Override
+        public void clickOnFabAddComment() {
+            getView().addProductComment();
         }
     }
 
