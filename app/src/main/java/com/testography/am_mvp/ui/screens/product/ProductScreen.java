@@ -133,6 +133,7 @@ public class ProductScreen extends AbstractScreen<CatalogScreen.Component> {
 
         public void clickFavorite() {
             ProductLocalInfo pli = getView().getProductLocalInfo();
+            pli.setRemoteId(mProduct.getId());
             mCatalogModel.updateProductLocalInfo(pli);
         }
 

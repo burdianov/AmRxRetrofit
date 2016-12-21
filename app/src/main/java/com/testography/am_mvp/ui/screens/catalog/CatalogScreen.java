@@ -69,11 +69,9 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
     @CatalogScope
     public interface Component {
         void inject(CatalogPresenter presenter);
-
         void inject(CatalogView view);
 
         CatalogModel getCatalogModel();
-
         Picasso getPicasso();
     }
 
