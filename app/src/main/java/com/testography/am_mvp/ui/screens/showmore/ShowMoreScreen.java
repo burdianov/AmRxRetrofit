@@ -11,7 +11,7 @@ import com.testography.am_mvp.di.scopes.ShowMoreScope;
 import com.testography.am_mvp.flow.AbstractScreen;
 import com.testography.am_mvp.flow.Screen;
 import com.testography.am_mvp.mvp.presenters.IShowMorePresenter;
-import com.testography.am_mvp.ui.activities.RootActivity;
+import com.testography.am_mvp.ui.screens.catalog.CatalogScreen;
 
 import dagger.Provides;
 import flow.TreeKey;
@@ -22,7 +22,7 @@ import mortar.ViewPresenter;
 // RootActivity.RootComponent = ProductScreen.Component ???
 
 @Screen(R.layout.screen_show_more)
-public class ShowMoreScreen extends AbstractScreen<RootActivity.RootComponent>
+public class ShowMoreScreen extends AbstractScreen<CatalogScreen.Component>
         implements TreeKey {
 
     @Nullable
@@ -35,13 +35,13 @@ public class ShowMoreScreen extends AbstractScreen<RootActivity.RootComponent>
     @NonNull
     @Override
     public Object getParentKey() {
-        return new RootActivity();
+        return new CatalogScreen();
     }
 
     @Override
-    public Object createScreenComponent(RootActivity.RootComponent parentComponent) {
+    public Object createScreenComponent(CatalogScreen.Component parentComponent) {
         return DaggerShowMoreScreen_Component.builder()
-                .rootComponent(parentComponent)
+                .component(parentComponent)
                 .module(new Module())
                 .build();
     }
@@ -73,11 +73,11 @@ public class ShowMoreScreen extends AbstractScreen<RootActivity.RootComponent>
         }
     }
 
-    @dagger.Component(dependencies = RootActivity.RootComponent.class, modules =
-            ShowMoreScreen.Module.class)
+    @dagger.Component(dependencies = CatalogScreen.Component.class, modules =
+            Module.class)
     @ShowMoreScope
     public interface Component {
-        void inject(ShowMoreScreen.ShowMorePresenter presenter);
+        void inject(ShowMorePresenter presenter);
 
         void inject(ShowMoreView view);
     }
