@@ -60,6 +60,8 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
         mCustomState = customState;
     }
 
+    //region ==================== Flow & Mortar ===================
+
     @Override
     public Object createScreenComponent(RootActivity.RootComponent parentComponent) {
         return DaggerAccountScreen_Component.builder()
@@ -67,6 +69,8 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
                 .module(new Module())
                 .build();
     }
+
+    //endregion
 
     //region ==================== DI ===================
 
@@ -85,11 +89,9 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
     @AccountScope
     public interface Component {
         void inject(AccountPresenter presenter);
-
         void inject(AccountView view);
 
         RootPresenter getRootPresenter();
-
         AccountModel getAccountModel();
     }
 

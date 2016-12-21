@@ -32,6 +32,8 @@ public class AddressScreen extends AbstractScreen<AccountScreen.Component>
         mAddressDto = addressDto;
     }
 
+    //region ==================== Flow & Mortar ===================
+
     @Override
     public boolean equals(Object o) {
 
@@ -61,7 +63,10 @@ public class AddressScreen extends AbstractScreen<AccountScreen.Component>
         return new AccountScreen();
     }
 
+    //endregion
+
     //region ==================== DI ===================
+
     @dagger.Module
     public class Module {
         @Provides
@@ -82,6 +87,7 @@ public class AddressScreen extends AbstractScreen<AccountScreen.Component>
 
 
     //region ==================== Presenter ===================
+
     public class AddressPresenter extends ViewPresenter<AddressView> implements
             IAddressPresenter {
 
@@ -111,5 +117,6 @@ public class AddressScreen extends AbstractScreen<AccountScreen.Component>
             }
         }
     }
+
     //endregion
 }

@@ -53,6 +53,7 @@ public class ProductView extends LinearLayout implements IProductView {
     }
 
     //region ==================== flow view lifecycle callbacks ===================
+
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
@@ -74,6 +75,7 @@ public class ProductView extends LinearLayout implements IProductView {
             mPresenter.dropView(this);
         }
     }
+
     //endregion
 
     //region ==================== IProductView ===================
@@ -156,6 +158,4 @@ public class ProductView extends LinearLayout implements IProductView {
     }
 
     //endregion
-
-
 }

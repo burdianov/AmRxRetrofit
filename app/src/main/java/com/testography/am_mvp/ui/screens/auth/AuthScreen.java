@@ -36,6 +36,8 @@ public class AuthScreen extends AbstractScreen<RootActivity.RootComponent> {
         return mCustomState;
     }
 
+    //region ==================== Flow & Mortar ===================
+
     @Override
     public Object createScreenComponent(RootActivity.RootComponent parentRootComponent) {
         return DaggerAuthScreen_Component.builder()
@@ -44,7 +46,10 @@ public class AuthScreen extends AbstractScreen<RootActivity.RootComponent> {
                 .build();
     }
 
+    //endregion
+
     //region ==================== DI ===================
+
     @dagger.Module
     public class Module {
 
@@ -68,9 +73,11 @@ public class AuthScreen extends AbstractScreen<RootActivity.RootComponent> {
         void inject(AuthPresenter presenter);
         void inject(AuthView view);
     }
+
     //endregion
 
     //region ==================== Presenter ===================
+
     public class AuthPresenter extends ViewPresenter<AuthView> implements IAuthPresenter {
 
         @Inject

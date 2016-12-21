@@ -35,6 +35,8 @@ import rx.schedulers.Schedulers;
 @Screen(R.layout.screen_catalog)
 public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
 
+    //region ==================== Flow & Mortar ===================
+
     @Override
     public Object createScreenComponent(RootActivity.RootComponent parentComponent) {
         return DaggerCatalogScreen_Component.builder()
@@ -42,6 +44,8 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
                 .module(new Module())
                 .build();
     }
+
+    //endregion
 
     //region ==================== DI ===================
 
@@ -88,6 +92,7 @@ public class CatalogScreen extends AbstractScreen<RootActivity.RootComponent> {
         private Subscription mProductSub;
 
         //region ==================== Lifecycle ===================
+
         @Override
         protected void onEnterScope(MortarScope scope) {
             super.onEnterScope(scope);

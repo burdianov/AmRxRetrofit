@@ -30,6 +30,8 @@ public class ProductScreen extends AbstractScreen<CatalogScreen.Component> {
         mProductDto = product;
     }
 
+    //region ==================== Flow & Mortar ===================
+
     @Override
     public boolean equals(Object o) {
         return o instanceof ProductScreen && mProductDto.equals(((ProductScreen)
@@ -48,6 +50,8 @@ public class ProductScreen extends AbstractScreen<CatalogScreen.Component> {
                 .module(new Module())
                 .build();
     }
+
+    //endregion
 
     //region ==================== DI ===================
 
