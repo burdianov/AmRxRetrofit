@@ -48,11 +48,11 @@ public class DataManager {
     @Inject
     Retrofit mRetrofit;
 
-    private List<ProductDto> mMockProductList;
-
     private Context mAppContext;
 
     private UserDto mUser;
+
+    private List<ProductDto> mMockProductList;
     private Map<String, String> mUserProfileInfo;
     private List<UserAddressDto> mUserAddresses;
     private Map<String, Boolean> mUserSettings;
@@ -148,8 +148,11 @@ public class DataManager {
 
     @Nullable
     public List<ProductDto> fromDisk() {
-        return mPreferencesManager.getProductList();
-//        return mMockProductList != null ? mMockProductList : null;
+        List<ProductDto> productDtoList = mPreferencesManager.getProductList();
+        if (productDtoList.size() == 0) {
+            productDtoList = mMockProductList;
+        }
+        return productDtoList;
     }
 
     private void saveOnDisk(ProductRes productRes) {
@@ -175,7 +178,12 @@ public class DataManager {
 
     public ProductDto getProductById(int productId) {
         // TODO: 28-Oct-16 gets product from mock (to be converted to DB)
-        return mMockProductList.get(productId - 1);
+        for (ProductDto productDto : mMockProductList) {
+            if (productDto.getId() == productId) {
+                return productDto;
+            }
+        }
+        return null;
     }
 
     public List<ProductDto> getProductList() {

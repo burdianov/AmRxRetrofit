@@ -211,15 +211,6 @@ public class PreferencesManager {
         editor.apply();
     }
 
-    public ProductDto getProductById(int id) {
-        for (ProductDto productDto : mProductDtoList) {
-            if (productDto.getId() == id) {
-                return productDto;
-            }
-        }
-        return null;
-    }
-
     //endregion
 
     public void saveAuthToken(String authToken) {
