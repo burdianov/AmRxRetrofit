@@ -33,12 +33,8 @@ public class PreferencesManager {
 
     private final SharedPreferences mSharedPreferences;
 
-    private List<ProductDto> mProductDtoList = new ArrayList<>();
-
     public PreferencesManager(Context context) {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-        initProductsMockData();
     }
 
     //region ==================== User Settings ===================
@@ -125,85 +121,111 @@ public class PreferencesManager {
     }
 
     public void generateProductsMockData(List<ProductDto> mockProductList) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        Gson gson = new Gson();
-        String products = gson.toJson(mockProductList);
         if (mSharedPreferences.getString(MOCK_PRODUCT_LIST, null) == null) {
+            SharedPreferences.Editor editor = mSharedPreferences.edit();
+            Gson gson = new Gson();
+            String products = gson.toJson(mockProductList);
             editor.putString(MOCK_PRODUCT_LIST, products);
             editor.apply();
         }
     }
 
-    private void initProductsMockData() {
+    public List<ProductDto> getProductList() {
         String products = mSharedPreferences.getString(MOCK_PRODUCT_LIST, null);
         if (products != null) {
             Gson gson = new Gson();
             ProductDto[] productList = gson.fromJson(products, ProductDto[].class);
-            List<ProductDto> productDtoList = Arrays.asList(productList);
-            mProductDtoList = new ArrayList<>(productDtoList);
+            return Arrays.asList(productList);
         }
-    }
-
-    public List<ProductDto> getProductList() {
-        return mProductDtoList;
+        return null;
     }
 
     public void updateOrInsertProduct(ProductRes productRes) {
+        String products = mSharedPreferences.getString(MOCK_PRODUCT_LIST, null);
         ProductDto productDto;
+        List<ProductDto> productDtoList;
 
-        Iterator<ProductDto> iterator = mProductDtoList.iterator();
+        if (products != null) {
+            Gson gson = new Gson();
+            ProductDto[] productList = gson.fromJson(products, ProductDto[].class);
+            productDtoList = new ArrayList<>(Arrays.asList(productList));
+            Iterator<ProductDto> iterator = productDtoList.iterator();
 
-        while (iterator.hasNext()) {
-            productDto = iterator.next();
-            if (productDto.getId() == productRes.getRemoteId()) {
-                productDto.setId(productRes.getRemoteId());
-                productDto.setProductName(productRes.getProductName());
-                productDto.setImageUrl(productRes.getImageUrl());
-                productDto.setDescription(productRes.getDescription());
-                productDto.setPrice(productRes.getPrice());
+            boolean found = false;
+            while (iterator.hasNext()) {
+                productDto = iterator.next();
+                if (productDto.getId() == productRes.getRemoteId()) {
+                    found = true;
+                    productDto.setId(productRes.getRemoteId());
+                    productDto.setProductName(productRes.getProductName());
+                    productDto.setImageUrl(productRes.getImageUrl());
+                    productDto.setDescription(productRes.getDescription());
+                    productDto.setPrice(productRes.getPrice());
+                }
             }
+            if (!found) {
+                productDto = new ProductDto(
+                        productRes.getRemoteId(),
+                        productRes.getProductName(),
+                        productRes.getImageUrl(),
+                        productRes.getDescription(),
+                        productRes.getPrice(),
+                        0, false);
+                productDtoList.add(productDto);
+            }
+        } else {
+            productDto = new ProductDto(
+                    productRes.getRemoteId(),
+                    productRes.getProductName(),
+                    productRes.getImageUrl(),
+                    productRes.getDescription(),
+                    productRes.getPrice(),
+                    0, false);
+            productDtoList = new ArrayList<>();
+            productDtoList.add(productDto);
         }
-        productDto = new ProductDto(
-                productRes.getRemoteId(),
-                productRes.getProductName(),
-                productRes.getImageUrl(),
-                productRes.getDescription(),
-                productRes.getPrice(),
-                0, false);
-        mProductDtoList.add(productDto);
-
-        updateMockProductList(mProductDtoList);
+        updateProductList(productDtoList);
     }
 
     public void updateOrInsertLocalInfo(ProductLocalInfo pli) {
-        ProductDto productDto;
-
-        Iterator<ProductDto> iterator = mProductDtoList.iterator();
-
-        while (iterator.hasNext()) {
-            productDto = iterator.next();
-            if (productDto.getId() == pli.getRemoteId()) {
-                productDto.setCount(pli.getCount());
-                productDto.setFavorite(pli.isFavorite());
+        String products = mSharedPreferences.getString(MOCK_PRODUCT_LIST, null);
+        if (products != null) {
+            ProductDto productDto;
+            Gson gson = new Gson();
+            ProductDto[] productList = gson.fromJson(products, ProductDto[].class);
+            Iterator<ProductDto> iterator = Arrays.asList(productList).iterator();
+            while (iterator.hasNext()) {
+                productDto = iterator.next();
+                if (productDto.getId() == pli.getRemoteId()) {
+                    productDto.setCount(pli.getCount());
+                    productDto.setFavorite(pli.isFavorite());
+                }
             }
+            updateProductList(Arrays.asList(productList));
         }
-        updateMockProductList(mProductDtoList);
     }
 
     public void deleteProduct(ProductRes productRes) {
-
         // TODO: 21-Dec-16 shall be fixed with Realm
-//        Iterator<ProductDto> iterator = mProductDtoList.iterator();
-//        ProductDto productDto;
-//        while (iterator.hasNext()) {
-//            productDto = iterator.next();
-//            if (productDto.getId() == productRes.getRemoteId()) {
-//                iterator.remove();
-//            }
-//        }
+        String products = mSharedPreferences.getString(MOCK_PRODUCT_LIST, null);
+        if (products != null) {
+            Gson gson = new Gson();
+            ProductDto[] productList = gson.fromJson(products, ProductDto[].class);
+            ArrayList<ProductDto> productDtoList = new ArrayList<>(Arrays.asList
+                    (productList));
+            Iterator<ProductDto> iterator = productDtoList.iterator();
+            ProductDto productDto;
+            while (iterator.hasNext()) {
+                productDto = iterator.next();
+                if (productDto.getId() == productRes.getRemoteId()) {
+                    iterator.remove();
+                }
+            }
+            updateProductList(productDtoList);
+        }
     }
 
-    private void updateMockProductList(List<ProductDto> productDtoList) {
+    private void updateProductList(List<ProductDto> productDtoList) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         Gson gson = new Gson();
         String products = gson.toJson(new ArrayList<>(productDtoList));
@@ -228,5 +250,20 @@ public class PreferencesManager {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.clear();
         editor.apply();
+    }
+
+    public ProductDto getProductById(int productId) {
+        // TODO: 28-Oct-16 gets product from mock (to be converted to DB)
+        String products = mSharedPreferences.getString(MOCK_PRODUCT_LIST, null);
+        if (products != null) {
+            Gson gson = new Gson();
+            ProductDto[] productList = gson.fromJson(products, ProductDto[].class);
+            for (ProductDto productDto : productList) {
+                if (productDto.getId() == productId) {
+                    return productDto;
+                }
+            }
+        }
+        return null;
     }
 }

@@ -1,7 +1,6 @@
 package com.testography.am_mvp.data.managers;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -52,7 +51,6 @@ public class DataManager {
 
     private UserDto mUser;
 
-    private List<ProductDto> mMockProductList;
     private Map<String, String> mUserProfileInfo;
     private List<UserAddressDto> mUserAddresses;
     private Map<String, Boolean> mUserSettings;
@@ -117,7 +115,6 @@ public class DataManager {
         mUser = new UserDto(mUserProfileInfo, mUserAddresses, mUserSettings);
     }
 
-
     public Observable getProductsObsFromNetwork() {
         return mRestService.getProductResObs(mPreferencesManager.getLastProductUpdate())
                 .compose(new RestCallTransformer<List<ProductRes>>())
@@ -150,7 +147,8 @@ public class DataManager {
     public List<ProductDto> fromDisk() {
         List<ProductDto> productDtoList = mPreferencesManager.getProductList();
         if (productDtoList.size() == 0) {
-            productDtoList = mMockProductList;
+            productDtoList = generateMockData();
+            mPreferencesManager.generateProductsMockData(productDtoList);
         }
         return productDtoList;
     }
@@ -174,21 +172,6 @@ public class DataManager {
 
     public void loginUser(String email, String password) {
         // TODO: 23-Oct-16 implement user authentication
-    }
-
-    public ProductDto getProductById(int productId) {
-        // TODO: 28-Oct-16 gets product from mock (to be converted to DB)
-        for (ProductDto productDto : mMockProductList) {
-            if (productDto.getId() == productId) {
-                return productDto;
-            }
-        }
-        return null;
-    }
-
-    public List<ProductDto> getProductList() {
-        // TODO: 28-Oct-16 get product list
-        return mMockProductList;
     }
 
     public void updateProduct(ProductDto product) {
@@ -223,14 +206,6 @@ public class DataManager {
         mUserSettings.put(notificationKey, isChecked);
     }
 
-    public void saveAvatarPhoto(Uri photoUri) {
-//        mPreferencesManager.saveAvatar(photoUri.toString());
-    }
-
-    public void addAddress(UserAddressDto userAddressDto) {
-        // TODO: 29-Nov-16 implement method
-    }
-
     public void updateOrInsertAddress(UserAddressDto addressDto) {
         if (mUserAddresses.contains(addressDto)) {
             mUserAddresses.set(mUserAddresses.indexOf(addressDto), addressDto);
@@ -247,60 +222,62 @@ public class DataManager {
         }
     }
 
-    private void generateMockData() {
-        mMockProductList = new ArrayList<>();
-        mMockProductList.add(new ProductDto(1, "disk " +
-                getResVal(R.string.product_name_1),
-                getResVal(R.string.product_url_1),
-                getResVal
-                        (R.string.lorem_ipsum), 100, 1, false));
-        mMockProductList.add(new ProductDto(2, "disk " +
-                getResVal(R.string.product_name_2),
-                getResVal(R.string.product_url_2),
-                getResVal
-                        (R.string.lorem_ipsum), 100, 1, false));
-        mMockProductList.add(new ProductDto(3, "disk " +
-                getResVal(R.string.product_name_3),
-                getResVal(R.string.product_url_3),
-                getResVal
-                        (R.string.lorem_ipsum), 100, 1, false));
-        mMockProductList.add(new ProductDto(4, "disk " +
-                getResVal(R.string.product_name_4),
-                getResVal(R.string.product_url_4),
-                getResVal
-                        (R.string.lorem_ipsum), 100, 1, false));
-        mMockProductList.add(new ProductDto(5, "disk " +
-                getResVal(R.string.product_name_5),
-                getResVal(R.string.product_url_5),
-                getResVal
-                        (R.string.lorem_ipsum), 100, 1, false));
-        mMockProductList.add(new ProductDto(6, "disk " +
-                getResVal(R.string.product_name_6),
-                getResVal(R.string.product_url_6),
-                getResVal
-                        (R.string.lorem_ipsum), 100, 1, false));
-        mMockProductList.add(new ProductDto(7, "disk " +
-                getResVal(R.string.product_name_7),
-                getResVal(R.string.product_url_7),
-                getResVal
-                        (R.string.lorem_ipsum), 100, 1, false));
-        mMockProductList.add(new ProductDto(8, "disk " +
-                getResVal(R.string.product_name_8),
-                getResVal(R.string.product_url_8),
-                getResVal
-                        (R.string.lorem_ipsum), 100, 1, false));
-        mMockProductList.add(new ProductDto(9, "disk " +
-                getResVal(R.string.product_name_9),
-                getResVal(R.string.product_url_9),
-                getResVal
-                        (R.string.lorem_ipsum), 100, 1, false));
-        mMockProductList.add(new ProductDto(10, "disk " +
-                getResVal(R.string.product_name_10),
-                getResVal(R.string.product_url_10),
-                getResVal
-                        (R.string.lorem_ipsum), 100, 1, false));
-
-        mPreferencesManager.generateProductsMockData(mMockProductList);
+    private List<ProductDto> generateMockData() {
+        List<ProductDto> productDtoList = getPreferencesManager().getProductList();
+        if (productDtoList == null) {
+            productDtoList = new ArrayList<>();
+            productDtoList.add(new ProductDto(1, "disk " +
+                    getResVal(R.string.product_name_1),
+                    getResVal(R.string.product_url_1),
+                    getResVal
+                            (R.string.lorem_ipsum), 100, 1, false));
+            productDtoList.add(new ProductDto(2, "disk " +
+                    getResVal(R.string.product_name_2),
+                    getResVal(R.string.product_url_2),
+                    getResVal
+                            (R.string.lorem_ipsum), 100, 1, false));
+            productDtoList.add(new ProductDto(3, "disk " +
+                    getResVal(R.string.product_name_3),
+                    getResVal(R.string.product_url_3),
+                    getResVal
+                            (R.string.lorem_ipsum), 100, 1, false));
+            productDtoList.add(new ProductDto(4, "disk " +
+                    getResVal(R.string.product_name_4),
+                    getResVal(R.string.product_url_4),
+                    getResVal
+                            (R.string.lorem_ipsum), 100, 1, false));
+            productDtoList.add(new ProductDto(5, "disk " +
+                    getResVal(R.string.product_name_5),
+                    getResVal(R.string.product_url_5),
+                    getResVal
+                            (R.string.lorem_ipsum), 100, 1, false));
+            productDtoList.add(new ProductDto(6, "disk " +
+                    getResVal(R.string.product_name_6),
+                    getResVal(R.string.product_url_6),
+                    getResVal
+                            (R.string.lorem_ipsum), 100, 1, false));
+            productDtoList.add(new ProductDto(7, "disk " +
+                    getResVal(R.string.product_name_7),
+                    getResVal(R.string.product_url_7),
+                    getResVal
+                            (R.string.lorem_ipsum), 100, 1, false));
+            productDtoList.add(new ProductDto(8, "disk " +
+                    getResVal(R.string.product_name_8),
+                    getResVal(R.string.product_url_8),
+                    getResVal
+                            (R.string.lorem_ipsum), 100, 1, false));
+            productDtoList.add(new ProductDto(9, "disk " +
+                    getResVal(R.string.product_name_9),
+                    getResVal(R.string.product_url_9),
+                    getResVal
+                            (R.string.lorem_ipsum), 100, 1, false));
+            productDtoList.add(new ProductDto(10, "disk " +
+                    getResVal(R.string.product_name_10),
+                    getResVal(R.string.product_url_10),
+                    getResVal
+                            (R.string.lorem_ipsum), 100, 1, false));
+        }
+        return productDtoList;
     }
 
     public Retrofit getRetrofit() {
