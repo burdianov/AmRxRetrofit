@@ -85,12 +85,19 @@ public class DataManager {
     private void initMockUserData() {
         mUserProfileInfo = new HashMap<>();
 
-        mUserProfileInfo.put(PROFILE_FULL_NAME_KEY, "Hulk " +
-                "Hogan");
-        mUserProfileInfo.put(PROFILE_AVATAR_KEY,
-                "http://a1.files.biography.com/image/upload/c_fill,cs_srgb," +
-                        "dpr_1.0,g_face,h_300,q_80,w_300/MTIwNjA4NjM0MDQyNzQ2Mzgw.jpg");
-        mUserProfileInfo.put(PROFILE_PHONE_KEY, "+7(917)971-38-27");
+        mUserProfileInfo = mPreferencesManager.getUserProfileInfo();
+        if (mUserProfileInfo.get(PROFILE_FULL_NAME_KEY).equals("")) {
+            mUserProfileInfo.put(PROFILE_FULL_NAME_KEY, "Hulk " +
+                    "Hogan");
+        }
+        if (mUserProfileInfo.get(PROFILE_AVATAR_KEY).equals("")) {
+            mUserProfileInfo.put(PROFILE_AVATAR_KEY,
+                    "http://a1.files.biography.com/image/upload/c_fill,cs_srgb," +
+                            "dpr_1.0,g_face,h_300,q_80,w_300/MTIwNjA4NjM0MDQyNzQ2Mzgw.jpg");
+        }
+        if (mUserProfileInfo.get(PROFILE_PHONE_KEY).equals("")) {
+            mUserProfileInfo.put(PROFILE_PHONE_KEY, "+7(917)971-38-27");
+        }
 
         mUserAddresses = new ArrayList<>();
         UserAddressDto userAddress;
@@ -198,6 +205,7 @@ public class DataManager {
         mUserProfileInfo.put(PROFILE_FULL_NAME_KEY, name);
         mUserProfileInfo.put(PROFILE_AVATAR_KEY, avatar);
         mUserProfileInfo.put(PROFILE_PHONE_KEY, phone);
+        mPreferencesManager.saveProfileInfo(mUserProfileInfo);
     }
 
     public void saveAvatarPhoto(Uri photoUri) {

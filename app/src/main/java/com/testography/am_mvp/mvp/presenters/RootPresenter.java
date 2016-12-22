@@ -98,5 +98,22 @@ public class RootPresenter extends AbstractPresenter<IRootView> {
     public void onRequestPermissionResult(int requestCode, @NonNull String[]
             permissions, @NonNull int[] grantResults) {
 
+        /*
+        switch (requestCode) {
+            case ConstantManager.REQUEST_PERMISSION_CAMERA:
+                if (grantResults.length == 2
+                        && grantResults[0] == PERMISSION_GRANTED
+                        && grantResults[1] == PERMISSION_GRANTED) {
+                    mPermissionsResultObs.onNext(REQUEST_PERMISSION_CAMERA);
+                }
+                break;
+            case ConstantManager.REQUEST_PERMISSION_READ_EXTERNAL_STORAGE:
+                if (grantResults.length == 1
+                        && grantResults[0] == PERMISSION_GRANTED) {
+                    mPermissionsResultObs.onNext(REQUEST_PERMISSION_READ_EXTERNAL_STORAGE);
+                }
+                break;
+        }
+        */
     }
 }

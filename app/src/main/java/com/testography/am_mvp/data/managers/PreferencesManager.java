@@ -111,17 +111,6 @@ public class PreferencesManager {
         return arrayAddress;
     }
 
-    public Map<String, String> getUserProfileInfo() {
-        Map<String, String> mapProfileInfo = new HashMap<>();
-        mapProfileInfo.put(PROFILE_PHONE_KEY, mSharedPreferences.getString
-                (PROFILE_PHONE_KEY, ""));
-        mapProfileInfo.put(PROFILE_FULL_NAME_KEY, mSharedPreferences.getString
-                (PROFILE_FULL_NAME_KEY, ""));
-        mapProfileInfo.put(PROFILE_AVATAR_KEY, mSharedPreferences.getString
-                (PROFILE_AVATAR_KEY, ""));
-        return mapProfileInfo;
-    }
-
     public void addUserAddress(UserAddressDto userAddressDto) {
         ArrayList<UserAddressDto> arrayList = getUserAddress();
         if (userAddressDto.getId() == 0) {
@@ -154,22 +143,28 @@ public class PreferencesManager {
         editor.apply();
     }
 
-    void saveAvatar(String avatar) {
+    //region ==================== User ===================
+
+    public void saveProfileInfo(Map<String, String> userProfileInfo) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(PROFILE_AVATAR_KEY, avatar);
+        editor.putString(PROFILE_FULL_NAME_KEY, userProfileInfo.get(PROFILE_FULL_NAME_KEY));
+        editor.putString(PROFILE_AVATAR_KEY, userProfileInfo.get(PROFILE_AVATAR_KEY));
+        editor.putString(PROFILE_PHONE_KEY, userProfileInfo.get(PROFILE_PHONE_KEY));
         editor.apply();
     }
 
-    String checkAvatar() {
-        String avatar;
-
-        if (mSharedPreferences.contains(PROFILE_AVATAR_KEY)) {
-            avatar = mSharedPreferences.getString(PROFILE_AVATAR_KEY, "null");
-        } else {
-            avatar = "null";
-        }
-        return avatar;
+    public Map<String, String> getUserProfileInfo() {
+        Map<String, String> mapProfileInfo = new HashMap<>();
+        mapProfileInfo.put(PROFILE_PHONE_KEY, mSharedPreferences.getString
+                (PROFILE_PHONE_KEY, ""));
+        mapProfileInfo.put(PROFILE_FULL_NAME_KEY, mSharedPreferences.getString
+                (PROFILE_FULL_NAME_KEY, ""));
+        mapProfileInfo.put(PROFILE_AVATAR_KEY, mSharedPreferences.getString
+                (PROFILE_AVATAR_KEY, ""));
+        return mapProfileInfo;
     }
+
+    //endregion
 
     //region ==================== Products ===================
 
