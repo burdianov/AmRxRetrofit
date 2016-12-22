@@ -5,39 +5,33 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
 import com.testography.am_mvp.data.network.res.ProductRes;
 import com.testography.am_mvp.data.storage.dto.ProductDto;
 import com.testography.am_mvp.data.storage.dto.ProductLocalInfo;
 import com.testography.am_mvp.data.storage.dto.UserAddressDto;
 import com.testography.am_mvp.utils.ConstantsManager;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class PreferencesManager {
 
     public static String PROFILE_FULL_NAME_KEY = "PROFILE_FULL_NAME_KEY";
     public static String PROFILE_AVATAR_KEY = "PROFILE_AVATAR_KEY";
     public static String PROFILE_PHONE_KEY = "PROFILE_PHONE_KEY";
+
     public static String NOTIFICATION_ORDER_KEY = "NOTIFICATION_ORDER_KEY";
     public static String NOTIFICATION_PROMO_KEY = "NOTIFICATION_PROMO_KEY";
+
     public static String PRODUCT_LAST_UPDATE_KEY = "PRODUCT_LAST_UPDATE_KEY";
     public static String USER_ADDRESSES_KEY = "USER_ADDRESSES_KEY";
     public static String MOCK_PRODUCT_LIST = "MOCK_PRODUCT_LIST";
 
     private final SharedPreferences mSharedPreferences;
-
-    private Moshi mMoshi;
-    private JsonAdapter<UserAddressDto> mJsonAdapter;
 
     private List<ProductDto> mProductDtoList = new ArrayList<>();
 
@@ -45,24 +39,9 @@ public class PreferencesManager {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         initProductsMockData();
-
-        mMoshi = new Moshi.Builder().build();
-        mJsonAdapter = mMoshi.adapter(UserAddressDto.class);
-        if (mSharedPreferences.getString(PROFILE_FULL_NAME_KEY, null) == null) {
-            generateMockData();
-        }
     }
 
-    public String getLastProductUpdate() {
-        return mSharedPreferences.getString(PRODUCT_LAST_UPDATE_KEY,
-                "Thu, 01 Jan 1970 00:00:00 GMT");
-    }
-
-    public void saveLastProductUpdate(String lastModified) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(PRODUCT_LAST_UPDATE_KEY, lastModified);
-        editor.apply();
-    }
+    //region ==================== User Settings ===================
 
     public Map<String, Boolean> getUserSettings() {
         Map<String, Boolean> settings = new HashMap<>();
@@ -73,77 +52,38 @@ public class PreferencesManager {
         return settings;
     }
 
-    private void generateMockData() {
-        UserAddressDto userAddressDto1 = new UserAddressDto(1, "Home",
-                "Airport Road", "24", "56", 9, "Beware of crazy dogs");
-        UserAddressDto userAddressDto2 = new UserAddressDto(2, "Work",
-                "Central Park", "123", "67", 2, "In the middle of nowhere");
-        String json1 = mJsonAdapter.toJson(userAddressDto1);
-        String json2 = mJsonAdapter.toJson(userAddressDto2);
-
+    public void saveSetting(String notificationKey, boolean isChecked) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
-        Set<String> setJson = new HashSet<>();
-        setJson.add(json1);
-        setJson.add(json2);
-        editor.putStringSet(USER_ADDRESSES_KEY, setJson);
-
-        editor.putString(PROFILE_FULL_NAME_KEY, "Hulk Hogan");
-        editor.putString(PROFILE_AVATAR_KEY,
-                "http://a1.files.biography.com/image/upload/c_fill,cs_srgb," +
-                        "dpr_1.0,g_face,h_300,q_80,w_300/MTIwNjA4NjM0MDQyNzQ2Mzgw.jpg");
-        editor.putString(PROFILE_PHONE_KEY, "+7(917)971-38-27");
+        editor.putBoolean(notificationKey, isChecked);
         editor.apply();
     }
 
-    public ArrayList<UserAddressDto> getUserAddress() {
-        Set<String> setJson = mSharedPreferences
-                .getStringSet(USER_ADDRESSES_KEY, new HashSet<>());
-        ArrayList<String> listJson = new ArrayList<>(setJson);
-        ArrayList<UserAddressDto> arrayAddress = new ArrayList<>();
+    //endregion
 
-        for (int i = 0; i < listJson.size(); i++) {
-            try {
-                arrayAddress.add(mJsonAdapter.fromJson(listJson.get(i)));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    //region ==================== User Addresses ===================
+
+    public ArrayList<UserAddressDto> getUserAddresses() {
+        String addresses = mSharedPreferences.getString(USER_ADDRESSES_KEY, null);
+        if (addresses != null) {
+            Gson gson = new Gson();
+            UserAddressDto[] addressList =
+                    gson.fromJson(addresses, UserAddressDto[].class);
+            return new ArrayList<>(Arrays.asList(addressList));
         }
-        return arrayAddress;
-    }
-
-    public void addUserAddress(UserAddressDto userAddressDto) {
-        ArrayList<UserAddressDto> arrayList = getUserAddress();
-        if (userAddressDto.getId() == 0) {
-            userAddressDto.setId(arrayList.size() + 1);
-        }
-
-        arrayList.add(userAddressDto);
-        // TODO: 15-Dec-16 complete the code!!!
-    }
-
-    public ProductLocalInfo getLocalInfo(int remoteId) {
-        // TODO: 16-Dec-16 implement me
         return null;
     }
 
-    public void saveAuthToken(String authToken) {
+    public void saveUserAddresses(List<UserAddressDto> userAddresses) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(ConstantsManager.AUTH_TOKEN_KEY, authToken);
+        Gson gson = new Gson();
+        String addresses = gson.toJson(userAddresses);
+        editor.putString(USER_ADDRESSES_KEY, addresses);
         editor.apply();
     }
 
-    public String getAuthToken() {
-        return mSharedPreferences.getString(ConstantsManager.AUTH_TOKEN_KEY,
-                ConstantsManager.INVALID_TOKEN);
-    }
+    //endregion
 
-    public void clearAllData() {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.clear();
-        editor.apply();
-    }
-
-    //region ==================== User ===================
+    //region ==================== User Profile Info ===================
 
     public void saveProfileInfo(Map<String, String> userProfileInfo) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
@@ -168,13 +108,29 @@ public class PreferencesManager {
 
     //region ==================== Products ===================
 
+    public String getLastProductUpdate() {
+        return mSharedPreferences.getString(PRODUCT_LAST_UPDATE_KEY,
+                "Thu, 01 Jan 1970 00:00:00 GMT");
+    }
+
+    public void saveLastProductUpdate(String lastModified) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(PRODUCT_LAST_UPDATE_KEY, lastModified);
+        editor.apply();
+    }
+
+    public ProductLocalInfo getLocalInfo(int remoteId) {
+        // TODO: 16-Dec-16 implement me
+        return null;
+    }
+
     public void generateProductsMockData(List<ProductDto> mockProductList) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         Gson gson = new Gson();
         String products = gson.toJson(mockProductList);
         if (mSharedPreferences.getString(MOCK_PRODUCT_LIST, null) == null) {
             editor.putString(MOCK_PRODUCT_LIST, products);
-            editor.commit();
+            editor.apply();
         }
     }
 
@@ -250,9 +206,9 @@ public class PreferencesManager {
     private void updateMockProductList(List<ProductDto> productDtoList) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         Gson gson = new Gson();
-        String products = gson.toJson(productDtoList);
+        String products = gson.toJson(new ArrayList<>(productDtoList));
         editor.putString(MOCK_PRODUCT_LIST, products);
-        editor.commit();
+        editor.apply();
     }
 
     public ProductDto getProductById(int id) {
@@ -265,4 +221,21 @@ public class PreferencesManager {
     }
 
     //endregion
+
+    public void saveAuthToken(String authToken) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(ConstantsManager.AUTH_TOKEN_KEY, authToken);
+        editor.apply();
+    }
+
+    public String getAuthToken() {
+        return mSharedPreferences.getString(ConstantsManager.AUTH_TOKEN_KEY,
+                ConstantsManager.INVALID_TOKEN);
+    }
+
+    public void clearAllData() {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+    }
 }

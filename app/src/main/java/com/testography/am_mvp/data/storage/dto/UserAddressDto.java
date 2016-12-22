@@ -13,6 +13,10 @@ public class UserAddressDto implements Parcelable {
     private String comment;
     private boolean favorite;
 
+    public UserAddressDto() {
+
+    }
+
     public UserAddressDto(int id, String name, String street, String house, String
             apartment, int floor, String comment) {
         this.id = id;
@@ -71,7 +75,7 @@ public class UserAddressDto implements Parcelable {
         this.street = street;
     }
 
-    public String getBuilding() {
+    public String getHouse() {
         return house;
     }
 

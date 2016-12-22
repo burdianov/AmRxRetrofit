@@ -81,7 +81,7 @@ public class AddressView extends RelativeLayout implements IAddressView {
             mAddressId = address.getId();
             mAddressNameEt.setText(address.getName());
             mStreetEt.setText(address.getStreet());
-            mNumberBuildingEt.setText(address.getBuilding());
+            mNumberBuildingEt.setText(address.getHouse());
             mNumberApartmentEt.setText(address.getApartment());
             mNumberFloor.setText(String.valueOf(address.getFloor()));
             mCommentEt.setText(address.getComment());
@@ -107,27 +107,29 @@ public class AddressView extends RelativeLayout implements IAddressView {
     }
 
     private String validateString(EditText editText) {
-        return editText.getText().toString().equals("") ? "Blank" : editText
-                .getText().toString();
+        return editText.getText().toString().equals("") ?
+                getContext().getString(R.string.blank) :
+                editText.getText().toString();
     }
 
     private int validateInteger(EditText editText) {
-        return editText.getText().toString().equals("") ? 0 : Integer.parseInt
-                (editText.getText().toString());
+        return editText.getText().toString().equals("") ? 0 :
+                Integer.parseInt(editText.getText().toString());
     }
 
     @Override
     public boolean viewOnBackPressed() {
         return false;
     }
+
     //endregion
 
     //region ==================== Events ===================
+
     @OnClick(R.id.add_btn)
     void AddAddress() {
         mPresenter.clickOnAddAddress();
     }
+
     //endregion
-
-
 }

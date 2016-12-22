@@ -122,5 +122,6 @@
     <string name="show_more">Show more</string>
     <string name="tab_label_description">Description</string>
     <string name="tab_label_comments">Comments</string>
+    <string name="blank">Blank</string>
 
 </resources>

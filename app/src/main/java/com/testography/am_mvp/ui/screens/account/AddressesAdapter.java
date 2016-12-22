@@ -52,7 +52,7 @@ public class AddressesAdapter extends RecyclerView
         addressBuilder.append("Str. ");
         addressBuilder.append(info.getStreet());
         addressBuilder.append(" ");
-        addressBuilder.append(info.getBuilding());
+        addressBuilder.append(info.getHouse());
         addressBuilder.append(" - ");
         addressBuilder.append(info.getApartment());
         addressBuilder.append(", ");

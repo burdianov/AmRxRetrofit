@@ -43,11 +43,11 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     Picasso mPicasso;
 
     @BindView(R.id.profile_name_txt)
-    TextView profileNameTxt;
+    TextView mProfileNameTxt;
     @BindView(R.id.user_avatar_img)
     ImageView mUserAvatarImg;
     @BindView(R.id.user_phone_et)
-    EditText userPhoneEt;
+    EditText mUserPhoneEt;
     @BindView(R.id.user_full_name_et)
     EditText userFullNameEt;
     @BindView(R.id.profile_name_wrapper)
@@ -55,11 +55,11 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     @BindView(R.id.address_list)
     RecyclerView mAddressList;
     @BindView(R.id.add_address_btn)
-    Button addAddressBtn;
+    Button mAddAddressBtn;
     @BindView(R.id.notification_order_sw)
-    SwitchCompat notificationOrderSw;
+    SwitchCompat mNotificationOrderSw;
     @BindView(R.id.notification_promo_sw)
-    SwitchCompat notificationPromoSw;
+    SwitchCompat mNotificationPromoSw;
 
     private AccountScreen mScreen;
     private TextWatcher mWatcher;
@@ -126,11 +126,12 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     }
 
     public void initSettings(UserSettingsDto settings) {
-        CompoundButton.OnCheckedChangeListener listener = (compoundButton, b) -> mPresenter.switchSettings();
-        notificationOrderSw.setChecked(settings.isOrderNotification());
-        notificationPromoSw.setChecked(settings.isPromoNotification());
-        notificationOrderSw.setOnCheckedChangeListener(listener);
-        notificationPromoSw.setOnCheckedChangeListener(listener);
+        CompoundButton.OnCheckedChangeListener listener =
+                (compoundButton, b) -> mPresenter.switchSettings();
+        mNotificationOrderSw.setChecked(settings.isOrderNotification());
+        mNotificationPromoSw.setChecked(settings.isPromoNotification());
+        mNotificationOrderSw.setOnCheckedChangeListener(listener);
+        mNotificationPromoSw.setOnCheckedChangeListener(listener);
     }
 
     private void initSwipe() {
@@ -194,7 +195,7 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                profileNameTxt.setText(charSequence);
+                mProfileNameTxt.setText(charSequence);
             }
 
             @Override
@@ -204,7 +205,7 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
         };
         profileNameWrapper.setVisibility(VISIBLE);
         userFullNameEt.addTextChangedListener(mWatcher);
-        userPhoneEt.setEnabled(true);
+        mUserPhoneEt.setEnabled(true);
         mPicasso.load(R.drawable.ic_add_white_24dp)
                 .error(R.drawable.ic_add_white_24dp)
                 .into(mUserAvatarImg);
@@ -213,7 +214,7 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     @Override
     public void showPreviewState() {
         profileNameWrapper.setVisibility(GONE);
-        userPhoneEt.setEnabled(false);
+        mUserPhoneEt.setEnabled(false);
         userFullNameEt.removeTextChangedListener(mWatcher);
         if (mAvatarUri != null) {
             insertAvatar();
@@ -247,7 +248,7 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
 
     @Override
     public String getUserPhone() {
-        return String.valueOf(userPhoneEt.getText());
+        return String.valueOf(mUserPhoneEt.getText());
     }
 
     @Override
@@ -261,8 +262,8 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     }
 
     public UserSettingsDto getSettings() {
-        return new UserSettingsDto(notificationOrderSw.isChecked(),
-                notificationPromoSw.isChecked());
+        return new UserSettingsDto(mNotificationOrderSw.isChecked(),
+                mNotificationPromoSw.isChecked());
     }
 
     public void updateAvatarPhoto(Uri uri) {
@@ -279,14 +280,14 @@ public class AccountView extends CoordinatorLayout implements IAccountView {
     }
 
     public UserInfoDto getUserProfileInfo() {
-        return new UserInfoDto(userFullNameEt.getText().toString(), userPhoneEt
+        return new UserInfoDto(userFullNameEt.getText().toString(), mUserPhoneEt
                 .getText().toString(), String.valueOf(mAvatarUri));
     }
 
     public void updateProfileInfo(UserInfoDto userInfoDto) {
-        profileNameTxt.setText(userInfoDto.getName());
+        mProfileNameTxt.setText(userInfoDto.getName());
         userFullNameEt.setText(userInfoDto.getName());
-        userPhoneEt.setText(userInfoDto.getPhone());
+        mUserPhoneEt.setText(userInfoDto.getPhone());
         if (mScreen.getCustomState() == PREVIEW_STATE) {
             mAvatarUri = Uri.parse(userInfoDto.getAvatar());
             insertAvatar();

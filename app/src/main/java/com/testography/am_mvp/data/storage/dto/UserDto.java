@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.testography.am_mvp.data.managers.PreferencesManager;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class UserDto implements Parcelable {
@@ -15,7 +16,7 @@ public class UserDto implements Parcelable {
     private String phone;
     private boolean orderNotification;
     private boolean promoNotification;
-    private ArrayList<UserAddressDto> userAddresses;
+    private List<UserAddressDto> userAddresses;
 
     protected UserDto(Parcel in) {
         id = in.readInt();
@@ -28,7 +29,7 @@ public class UserDto implements Parcelable {
     }
 
     public UserDto(Map<String, String> userProfileInfo,
-                   ArrayList<UserAddressDto> userAddresses, Map<String, Boolean>
+                   List<UserAddressDto> userAddresses, Map<String, Boolean>
                            userSettings) {
         this.fullname = userProfileInfo.get(PreferencesManager
                 .PROFILE_FULL_NAME_KEY);
@@ -103,7 +104,7 @@ public class UserDto implements Parcelable {
         this.promoNotification = promoNotification;
     }
 
-    public ArrayList<UserAddressDto> getUserAddresses() {
+    public List<UserAddressDto> getUserAddresses() {
         return userAddresses;
     }
 

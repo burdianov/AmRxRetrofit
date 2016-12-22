@@ -30,6 +30,9 @@ public class AddressScreen extends AbstractScreen<AccountScreen.Component>
 
     public AddressScreen(@Nullable UserAddressDto addressDto) {
         mAddressDto = addressDto;
+        if (mAddressDto == null) {
+            mAddressDto = new UserAddressDto();
+        }
     }
 
     //region ==================== Flow & Mortar ===================
@@ -112,7 +115,18 @@ public class AddressScreen extends AbstractScreen<AccountScreen.Component>
         public void clickOnAddAddress() {
             // TODO: 29-Nov-16 save address in model
             if (getView() != null) {
-                mAccountModel.updateOrInsertAddress(getView().getUserAddress());
+                UserAddressDto userAddress = getView().getUserAddress();
+
+                mAddressDto.setId(userAddress.getId());
+                mAddressDto.setName(userAddress.getName());
+                mAddressDto.setStreet(userAddress.getStreet());
+                mAddressDto.setHouse(userAddress.getHouse());
+                mAddressDto.setApartment(userAddress.getApartment());
+                mAddressDto.setFloor(userAddress.getFloor());
+                mAddressDto.setComment(userAddress.getComment());
+                mAddressDto.setFavorite(userAddress.isFavorite());
+                mAccountModel.updateOrInsertAddress(mAddressDto);
+
                 Flow.get(getView()).goBack();
             }
         }

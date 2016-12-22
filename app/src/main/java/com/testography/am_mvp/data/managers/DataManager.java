@@ -54,7 +54,7 @@ public class DataManager {
 
     private UserDto mUser;
     private Map<String, String> mUserProfileInfo;
-    private ArrayList<UserAddressDto> mUserAddresses;
+    private List<UserAddressDto> mUserAddresses;
     private Map<String, Boolean> mUserSettings;
 
     public static DataManager getInstance() {
@@ -77,18 +77,18 @@ public class DataManager {
             DaggerService.registerComponent(DataManagerComponent.class, component);
         }
         component.inject(this);
-        generateMockData();
 
-        initMockUserData();
+        generateMockData();
+        initUserData();
     }
 
-    private void initMockUserData() {
+    private void initUserData() {
         mUserProfileInfo = new HashMap<>();
+        mUserAddresses = new ArrayList<>();
 
         mUserProfileInfo = mPreferencesManager.getUserProfileInfo();
         if (mUserProfileInfo.get(PROFILE_FULL_NAME_KEY).equals("")) {
-            mUserProfileInfo.put(PROFILE_FULL_NAME_KEY, "Hulk " +
-                    "Hogan");
+            mUserProfileInfo.put(PROFILE_FULL_NAME_KEY, "Hulk Hogan");
         }
         if (mUserProfileInfo.get(PROFILE_AVATAR_KEY).equals("")) {
             mUserProfileInfo.put(PROFILE_AVATAR_KEY,
@@ -98,23 +98,25 @@ public class DataManager {
         if (mUserProfileInfo.get(PROFILE_PHONE_KEY).equals("")) {
             mUserProfileInfo.put(PROFILE_PHONE_KEY, "+7(917)971-38-27");
         }
+        List<UserAddressDto> userAddresses = getPreferencesManager().getUserAddresses();
 
-        mUserAddresses = new ArrayList<>();
-        UserAddressDto userAddress;
-        userAddress = new UserAddressDto(1, "Home", "Airport Road", "24", "56",
-                9, "Beware of crazy dogs");
-        mUserAddresses.add(userAddress);
+        if (userAddresses == null) {
+            UserAddressDto userAddress;
+            userAddress = new UserAddressDto(1, "Home", "Airport Road", "24", "56",
+                    9, "Beware of crazy dogs");
+            mUserAddresses.add(userAddress);
+            userAddress = new UserAddressDto(2, "Work", "Central Park", "123", "67",
+                    2, "In the middle of nowhere");
+            mUserAddresses.add(userAddress);
+        } else {
+            mUserAddresses = userAddresses;
+        }
 
-        userAddress = new UserAddressDto(2, "Work", "Central Park", "123", "67",
-                2, "In the middle of nowhere");
-        mUserAddresses.add(userAddress);
-
-        mUserSettings = new HashMap<>();
-        mUserSettings.put(PreferencesManager.NOTIFICATION_ORDER_KEY, true);
-        mUserSettings.put(PreferencesManager.NOTIFICATION_PROMO_KEY, false);
+        mUserSettings = getPreferencesManager().getUserSettings();
 
         mUser = new UserDto(mUserProfileInfo, mUserAddresses, mUserSettings);
     }
+
 
     public Observable getProductsObsFromNetwork() {
         return mRestService.getProductResObs(mPreferencesManager.getLastProductUpdate())
@@ -193,7 +195,7 @@ public class DataManager {
         return mUserProfileInfo;
     }
 
-    public ArrayList<UserAddressDto> getUserAddresses() {
+    public List<UserAddressDto> getUserAddresses() {
         return mUserAddresses;
     }
 
@@ -208,12 +210,13 @@ public class DataManager {
         mPreferencesManager.saveProfileInfo(mUserProfileInfo);
     }
 
-    public void saveAvatarPhoto(Uri photoUri) {
-//        mPreferencesManager.saveAvatar(photoUri.toString());
+    public void saveSetting(String notificationKey, boolean isChecked) {
+        mPreferencesManager.saveSetting(notificationKey, isChecked);
+        mUserSettings.put(notificationKey, isChecked);
     }
 
-    public void saveSetting(String notificationKey, boolean isChecked) {
-        // TODO: 29-Nov-16 implement method
+    public void saveAvatarPhoto(Uri photoUri) {
+//        mPreferencesManager.saveAvatar(photoUri.toString());
     }
 
     public void addAddress(UserAddressDto userAddressDto) {
@@ -226,11 +229,13 @@ public class DataManager {
         } else {
             mUserAddresses.add(0, addressDto);
         }
+        mPreferencesManager.saveUserAddresses(mUserAddresses);
     }
 
     public void removeAddress(UserAddressDto addressDto) {
         if (mUserAddresses.contains(addressDto)) {
             mUserAddresses.remove(mUserAddresses.indexOf(addressDto));
+            getPreferencesManager().saveUserAddresses(mUserAddresses);
         }
     }
 

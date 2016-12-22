@@ -20,7 +20,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/dummy_content_description"
-        app:civ_border_color="@color/colorAccent"
+        app:civ_border_color="@color/color_grey_darker"
         app:civ_border_width="@dimen/line_size_1"/>
 
     <TextView
