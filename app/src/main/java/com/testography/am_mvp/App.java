@@ -44,7 +44,6 @@ public class App extends Application {
 
         createAppComponent();
         createRootActivityComponent();
-//        createCatalogScreenComponent();
 
         sContext = getApplicationContext();
 

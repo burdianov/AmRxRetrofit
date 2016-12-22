@@ -72,9 +72,7 @@ public class SplashActivity extends AppCompatActivity implements IRootView {
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
 
-        DaggerService.<RootActivity.RootComponent>getDaggerComponent(this).inject
-                (this);
-
+        DaggerService.<RootActivity.RootComponent>getDaggerComponent(this).inject(this);
     }
 
     private void printVals(String string, String thread) {

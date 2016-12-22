@@ -38,7 +38,8 @@ public class RootPresenter extends AbstractPresenter<IRootView> {
 
     @Override
     public void initView() {
-        mAccountModel.getUserInfoObs().subscribeOn(Schedulers.io())
+        mAccountModel.getUserInfoObs()
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new UserInfoSubscriber());
     }
@@ -93,7 +94,7 @@ public class RootPresenter extends AbstractPresenter<IRootView> {
         // TODO: 06-Dec-16 get result from RootActivity
     }
 
-    // TODO: 06-Dec-16 the following method shall be verified
+    // TODO: 06-Dec-16 the following method shall be implemented
     public void onRequestPermissionResult(int requestCode, @NonNull String[]
             permissions, @NonNull int[] grantResults) {
 

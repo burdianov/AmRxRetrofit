@@ -85,12 +85,14 @@
         <Button
             android:id="@+id/show_catalog_btn"
             style="@style/CustomButton"
+            android:textColor="@color/colorPrimaryDark"
             android:text="@string/view_catalog"
             android:theme="@style/ShowBtn"/>
 
         <Button
             android:id="@+id/login_btn"
             style="@style/CustomButton"
+            android:textColor="@color/color_white"
             android:text="@string/login"
             android:theme="@style/StartBtn"/>
     </LinearLayout>

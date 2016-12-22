@@ -64,8 +64,7 @@ public class ProductScreen extends AbstractScreen<CatalogScreen.Component> {
         }
     }
 
-    @dagger.Component(dependencies = CatalogScreen.Component.class, modules =
-            Module.class)
+    @dagger.Component(dependencies = {CatalogScreen.Component.class}, modules = Module.class)
     @ProductScope
     public interface Component {
         void inject(ProductPresenter presenter);

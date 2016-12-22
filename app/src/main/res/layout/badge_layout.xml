@@ -30,20 +30,4 @@
         android:layout_marginEnd="@dimen/spacing_medial_24"
         android:src="@drawable/basket"/>
 
-    <!-- Badge Count -->
-    <TextView
-        android:id="@+id/items_in_cart_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:paddingTop="@dimen/spacing_tiny_4"
-        android:paddingRight="@dimen/spacing_normal_16"
-        android:paddingEnd="@dimen/spacing_normal_16"
-        android:paddingBottom="@dimen/spacing_tiny_4"
-        android:paddingLeft="@dimen/spacing_tiny_4"
-        android:paddingStart="@dimen/spacing_tiny_4"
-        android:textStyle="bold"
-        android:textColor="@android:color/holo_orange_dark"/>
-
 </RelativeLayout>

@@ -3,13 +3,12 @@ package com.testography.am_mvp.ui.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -25,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -44,9 +42,6 @@ import com.testography.am_mvp.mvp.views.IRootView;
 import com.testography.am_mvp.mvp.views.IView;
 import com.testography.am_mvp.ui.screens.account.AccountScreen;
 import com.testography.am_mvp.ui.screens.catalog.CatalogScreen;
-import com.testography.am_mvp.utils.RoundedAvatarDrawable;
-
-import java.io.InputStream;
 
 import javax.inject.Inject;
 
@@ -63,6 +58,8 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     DrawerLayout mDrawer;
     @BindView(R.id.nav_view)
     NavigationView mNavigationView;
+    @BindView(R.id.appbar_layout)
+    AppBarLayout mAppBarLayout;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.coordinator_container)
@@ -77,7 +74,7 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     @Inject
     Picasso mPicasso;
 
-    private AlertDialog.Builder exitDialog;
+    private AlertDialog.Builder mExitDialog;
 
 
     @Override
@@ -120,10 +117,7 @@ public class RootActivity extends AppCompatActivity implements IRootView,
         getMenuInflater().inflate(R.menu.main_menu, menu);
         MenuItem item = menu.findItem(R.id.badge);
         MenuItemCompat.setActionView(item, R.layout.badge_layout);
-        RelativeLayout notifCount = (RelativeLayout) MenuItemCompat.getActionView(item);
 
-        TextView tv = (TextView) notifCount.findViewById(R.id.items_in_cart_txt);
-        tv.setText("8");
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -140,7 +134,7 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     }
 
     private void initExitDialog() {
-        exitDialog = new AlertDialog.Builder(this)
+        mExitDialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.close_app)
                 .setMessage(R.string.are_you_sure)
                 .setPositiveButton(R.string.yes,
@@ -152,9 +146,12 @@ public class RootActivity extends AppCompatActivity implements IRootView,
 
     @Override
     public void onBackPressed() {
-        if (getCurrentScreen() != null && !getCurrentScreen().viewOnBackPressed()
+        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+            mDrawer.closeDrawer(GravityCompat.START);
+        } else if (getCurrentScreen() != null && !getCurrentScreen()
+                .viewOnBackPressed()
                 && !Flow.get(this).goBack()) {
-            super.onBackPressed();
+            mExitDialog.show();
         }
     }
 
@@ -166,7 +163,6 @@ public class RootActivity extends AppCompatActivity implements IRootView,
         mDrawer.setDrawerListener(toggle);
         toggle.syncState();
         mNavigationView.setNavigationItemSelectedListener(this);
-        setupRoundedAvatar();
     }
 
     @Override
@@ -193,18 +189,6 @@ public class RootActivity extends AppCompatActivity implements IRootView,
         mDrawer.closeDrawer(GravityCompat.START);
 
         return true;
-    }
-
-    private void setupRoundedAvatar() {
-        ImageView avatar = (ImageView) mNavigationView.getHeaderView(0)
-                .findViewById(R.id.drawer_user_avatar);
-        InputStream resource = getResources().openRawResource(R.raw.user_avatar);
-        Bitmap bitmap = BitmapFactory.decodeStream(resource);
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            avatar.setBackgroundDrawable(new RoundedAvatarDrawable(bitmap));
-        } else {
-            avatar.setBackground(new RoundedAvatarDrawable(bitmap));
-        }
     }
 
     //region ==================== IRootView ===================
@@ -284,13 +268,17 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     @RootScope
     public interface RootComponent {
         void inject(RootActivity activity);
+
         void inject(SplashActivity activity);
 
         void inject(RootPresenter presenter);
 
         AccountModel getAccountModel();
+
         RootPresenter getRootPresenter();
+
         Picasso getPicasso();
+
     }
     //endregion
 
