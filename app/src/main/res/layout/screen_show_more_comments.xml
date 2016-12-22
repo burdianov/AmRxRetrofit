@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <android.support.design.widget.CoordinatorLayout
@@ -24,6 +25,8 @@
             android:layout_gravity="bottom|end"
             android:layout_marginBottom="@dimen/fab_bottom_space"
             android:layout_marginRight="@dimen/fab_right_space"
+            android:clickable="true"
+            app:rippleColor="@color/colorPrimaryDark"
             android:src="@drawable/ic_add_white_24dp"/>
 
     </android.support.design.widget.CoordinatorLayout>
