@@ -29,8 +29,7 @@
                     android:layout_gravity="center_horizontal"
                     style="@style/Icon"
                     android:layout_marginTop="@dimen/spacing_small_8"
-                    android:contentDescription="@string/dummy_content_description"
-                    android:src="@drawable/user_avatar_round"/>
+                    android:contentDescription="@string/dummy_content_description"/>
             </LinearLayout>
 
             <LinearLayout
@@ -80,7 +79,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                     </RelativeLayout>
-
                 </LinearLayout>
 
                 <TextView

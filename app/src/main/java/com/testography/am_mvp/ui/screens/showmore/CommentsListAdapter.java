@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.testography.am_mvp.R;
 
 import java.util.List;
@@ -45,6 +47,11 @@ public class CommentsListAdapter extends BaseAdapter {
         String testItem = getItem(i).toString();
         textView.setText(testItem);
 
+        ImageView avatar = (ImageView) rowView.findViewById(R.id
+                .avatar_comments_img);
+        Picasso.with(null)
+                .load(R.drawable.user_avatar_round)
+                .into(avatar);
         return rowView;
     }
 }
