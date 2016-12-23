@@ -43,6 +43,7 @@ public class CatalogView extends RelativeLayout implements ICatalogView {
     }
 
     //region ==================== flow view lifecycle callbacks ===================
+
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
@@ -67,6 +68,7 @@ public class CatalogView extends RelativeLayout implements ICatalogView {
             mPresenter.dropView(this);
         }
     }
+
     //endregion
 
     @Override

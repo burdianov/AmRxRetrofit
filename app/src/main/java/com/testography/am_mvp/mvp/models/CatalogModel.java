@@ -47,8 +47,8 @@ public class CatalogModel extends AbstractModel {
     }
 
     public Observable<ProductDto> getProductObs() {
-        Observable<ProductDto> disk = fromDisk();
         Observable<ProductRes> network = fromNetwork();
+        Observable<ProductDto> disk = fromDisk();
         Observable<ProductLocalInfo> local = network.flatMap(productRes ->
                 mDataManager.getProductLocalInfoObs(productRes));
 

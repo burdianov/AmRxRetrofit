@@ -208,11 +208,11 @@ public class PreferencesManager {
     public void deleteProduct(ProductRes productRes) {
         // TODO: 21-Dec-16 shall be fixed with Realm
         String products = mSharedPreferences.getString(MOCK_PRODUCT_LIST, null);
+        ArrayList<ProductDto> productDtoList;
         if (products != null) {
             Gson gson = new Gson();
             ProductDto[] productList = gson.fromJson(products, ProductDto[].class);
-            ArrayList<ProductDto> productDtoList = new ArrayList<>(Arrays.asList
-                    (productList));
+            productDtoList = new ArrayList<>(Arrays.asList(productList));
             Iterator<ProductDto> iterator = productDtoList.iterator();
             ProductDto productDto;
             while (iterator.hasNext()) {

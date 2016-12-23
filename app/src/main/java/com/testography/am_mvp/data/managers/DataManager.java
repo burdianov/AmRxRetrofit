@@ -146,7 +146,8 @@ public class DataManager {
     @Nullable
     public List<ProductDto> fromDisk() {
         List<ProductDto> productDtoList = mPreferencesManager.getProductList();
-        if (productDtoList.size() == 0) {
+
+        if (productDtoList == null) {
             productDtoList = generateMockData();
             mPreferencesManager.generateProductsMockData(productDtoList);
         }
