@@ -128,9 +128,10 @@ public class DataManager {
                 .observeOn(Schedulers.io())
                 .doOnNext(productRes -> {
                     if (!productRes.isActive()) {
-                        deleteFromDb(productRes);
+                        // deleteFromDb(productRes); shall be reconnected later
                     }
                 })
+                .distinct(ProductRes::getRemoteId) // temporary remedy
                 .filter(ProductRes::isActive)
                 .doOnNext(productRes -> {
                     saveOnDisk(productRes);
