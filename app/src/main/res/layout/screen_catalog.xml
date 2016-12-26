@@ -24,7 +24,7 @@
             android:id="@+id/indicator"
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_small_24"
-            app:ci_animator="@animator/indicator_animator"
+            app:ci_animator="@anim/indicator_animator"
             app:ci_drawable="@drawable/primary_radius"
             app:ci_drawable_unselected="@drawable/black_radius"/>
 

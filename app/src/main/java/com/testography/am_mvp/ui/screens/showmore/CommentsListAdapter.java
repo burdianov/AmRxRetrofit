@@ -65,7 +65,7 @@ public class CommentsListAdapter extends BaseAdapter {
         TextView timeElapsedTxt = (TextView) rowView.findViewById(R.id.time_txt);
         TextView comments = (TextView) rowView.findViewById(R.id.comment_text_txt);
 
-        userName.setText("John Doe");
+        userName.setText(R.string.john_doe);
         rating.setRating(mComments.get(i).getRaiting());
 
         SimpleDateFormat timeFormat = new SimpleDateFormat
@@ -85,11 +85,11 @@ public class CommentsListAdapter extends BaseAdapter {
 
             String timeElapsed;
             if (agoHours > 24) {
-                timeElapsed = (String.valueOf(agoDays) + " days ago");
+                timeElapsed = (String.valueOf(agoDays) + " " + mContext.getString(R.string.days_ago));
             } else if (agoHours > 1) {
-                timeElapsed = String.valueOf(agoHours) + " hours ago";
+                timeElapsed = String.valueOf(agoHours) + " " + mContext.getString(R.string.hours_ago);
             } else {
-                timeElapsed = String.valueOf(agoMinutes) + " minutes ago";
+                timeElapsed = String.valueOf(agoMinutes) + " " + mContext.getString(R.string.minutes_ago);
             }
             timeElapsedTxt.setText(timeElapsed);
         } catch (ParseException e) {

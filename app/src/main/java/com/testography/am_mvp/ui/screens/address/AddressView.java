@@ -3,6 +3,7 @@ package com.testography.am_mvp.ui.screens.address;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -54,6 +55,8 @@ public class AddressView extends RelativeLayout implements IAddressView {
     protected void onFinishInflate() {
         super.onFinishInflate();
         ButterKnife.bind(this);
+        startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.enter_animation));
+
     }
 
     @Override
