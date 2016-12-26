@@ -123,5 +123,6 @@
     <string name="tab_label_description">Description</string>
     <string name="tab_label_comments">Comments</string>
     <string name="blank">Blank</string>
+    <string name="server_date_format">yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'</string>
 
 </resources>

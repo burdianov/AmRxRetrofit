@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.testography.am_mvp.R;
 import com.testography.am_mvp.data.storage.dto.ProductDto;
 import com.testography.am_mvp.di.DaggerService;
@@ -23,6 +24,9 @@ public class ShowMoreView extends LinearLayout implements IShowMoreView {
     ViewPager mShowMorePager;
     @BindView(R.id.show_more_tabs)
     TabLayout mShowMoreTabs;
+
+    @Inject
+    Picasso mPicasso;
 
     @Inject
     ShowMoreScreen.ShowMorePresenter mPresenter;
@@ -63,7 +67,8 @@ public class ShowMoreView extends LinearLayout implements IShowMoreView {
 
     @Override
     public void initView(ProductDto productDto) {
-        mShowMorePager.setAdapter(new ShowMoreAdapter(getContext(), productDto));
+        mShowMorePager.setAdapter(new ShowMoreAdapter(getContext(), productDto,
+                mPicasso));
         mShowMoreTabs.setupWithViewPager(mShowMorePager);
     }
 

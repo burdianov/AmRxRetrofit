@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.testography.am_mvp.R;
 import com.testography.am_mvp.data.storage.dto.CommentDto;
 import com.testography.am_mvp.data.storage.dto.ProductDto;
@@ -23,10 +24,12 @@ public class ShowMoreAdapter extends PagerAdapter {
 
     private Context mContext;
     private ProductDto mProductDto;
+    private Picasso mPicasso;
 
-    public ShowMoreAdapter(Context context, ProductDto productDto) {
+    public ShowMoreAdapter(Context context, ProductDto productDto, Picasso picasso) {
         mContext = context;
         mProductDto = productDto;
+        mPicasso = picasso;
     }
 
     @Override
@@ -85,7 +88,7 @@ public class ShowMoreAdapter extends PagerAdapter {
                 List<CommentDto> comments = mProductDto.getComments();
 
                 CommentsListAdapter adapter = new CommentsListAdapter(getContext
-                        (), comments);
+                        (), comments, mPicasso);
                 listView.setAdapter(adapter);
 
                 break;

@@ -22,7 +22,7 @@
                 android:layout_width="@dimen/spacing_zero"
                 android:layout_height="wrap_content">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/avatar_comments_img"
                     android:layout_width="@dimen/spacing_medium_32"
                     android:layout_height="@dimen/spacing_medium_32"
@@ -30,8 +30,8 @@
                     style="@style/Icon"
                     android:layout_marginTop="@dimen/spacing_small_8"
                     android:contentDescription="@string/dummy_content_description"/>
-            </LinearLayout>
 
+            </LinearLayout>
             <LinearLayout
                 android:layout_weight="8.5"
                 android:layout_width="@dimen/spacing_zero"
