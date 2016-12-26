@@ -41,7 +41,5 @@
             style="@style/CustomText.AccountTitle"
             android:text="@string/no_comment"/>
 
-        <View style="@style/HorizontalDivider"/>
-
     </LinearLayout>
 </LinearLayout>

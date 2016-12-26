@@ -30,8 +30,8 @@ public abstract class ItemSwipeCallback extends ItemTouchHelper.SimpleCallback {
     //Settings
     private final int RIGHT_ICON = R.drawable.ic_delete_white_24dp; //use only square vector drawables
     private final int LEFT_ICON = R.drawable.ic_edit_white_24dp; //use only square vector drawables
-    private final int RIGHT_COLOR = R.color.colorPrimaryDark;
-    private final int LEFT_COLOR = R.color.colorAccent;
+    private final int RIGHT_COLOR = R.color.color_swipe_delete;
+    private final int LEFT_COLOR = R.color.color_swipe_edit;
     private final int RIGHT_TEXT = R.string.delete;
     private final int LEFT_TEXT = R.string.edit;
     private final float TEXT_SIZE_SP = 15f;
