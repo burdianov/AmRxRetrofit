@@ -70,11 +70,16 @@ public class App extends Application {
     }
 
     private void createRootActivityComponent() {
-        sRootActivityRootComponent = DaggerRootActivity_RootComponent.builder()
-                .appComponent(sAppComponent)
-                .rootModule(new RootModule())
-                .picassoCacheModule(new PicassoCacheModule())
-                .build();
+//        sRootActivityRootComponent = DaggerRootActivity_RootComponent.builder()
+//                .appComponent(sAppComponent)
+//                .rootModule(new RootModule())
+//                .picassoCacheModule(new PicassoCacheModule())
+//                .build();
+        sRootActivityRootComponent = DaggerService.createComponent(RootActivity
+                        .RootComponent.class, DaggerRootActivity_RootComponent.class,
+                getAppComponent(),
+                new PicassoCacheModule(),
+                new RootModule());
     }
 
     public static SharedPreferences getSharedPreferences() {
