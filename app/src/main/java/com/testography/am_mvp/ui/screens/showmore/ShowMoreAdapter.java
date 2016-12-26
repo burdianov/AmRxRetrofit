@@ -6,12 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.testography.am_mvp.R;
+import com.testography.am_mvp.data.storage.dto.CommentDto;
 import com.testography.am_mvp.data.storage.dto.ProductDto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.testography.am_mvp.App.getContext;
@@ -64,8 +65,10 @@ public class ShowMoreAdapter extends PagerAdapter {
                 TextView description = (TextView) newView.findViewById(R.id
                         .product_description_txt);
                 TextView price = (TextView) newView.findViewById(R.id
-                        .product_price_txt);
+                        .product_price_description_txt);
                 TextView count = (TextView) newView.findViewById(R.id.product_count_txt);
+                RatingBar ratingBar = (RatingBar) newView.findViewById(R.id
+                        .rating_bar_description);
 
                 name.setText(mProductDto.getProductName());
                 description.setText(mProductDto.getDescription());
@@ -79,13 +82,10 @@ public class ShowMoreAdapter extends PagerAdapter {
 
                 ListView listView = (ListView) newView.findViewById(R.id.list_view);
 
-                final List<String> testItems = new ArrayList<>();
-                testItems.add("Item 1");
-                testItems.add("Item 2");
-                testItems.add("Item 3");
+                List<CommentDto> comments = mProductDto.getComments();
 
                 CommentsListAdapter adapter = new CommentsListAdapter(getContext
-                        (), testItems);
+                        (), comments);
                 listView.setAdapter(adapter);
 
                 break;

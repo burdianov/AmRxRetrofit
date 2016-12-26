@@ -24,7 +24,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/spacing_medial_24"
-                    android:paddingTop="@dimen/spacing_normal_16">
+                    android:paddingTop="@dimen/spacing_small_8">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -43,6 +43,7 @@
 
                         <TextView
                             android:id="@+id/product_description_txt"
+                            android:lines="7"
                             style="@style/ProductText.ProductDetailsDescription"
                             android:text="@string/lorem_ipsum"/>
                     </LinearLayout>
@@ -127,7 +128,7 @@
                             android:text="@string/price"/>
 
                         <TextView
-                            android:id="@+id/product_price_txt"
+                            android:id="@+id/product_price_description_txt"
                             style="@style/ProductText.ValuePrice"
                             android:text="@string/sample_price"/>
 

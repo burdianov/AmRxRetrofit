@@ -18,9 +18,6 @@ import flow.TreeKey;
 import mortar.MortarScope;
 import mortar.ViewPresenter;
 
-// TODO: 20-Dec-16 Manage properly the scopes
-// RootActivity.RootComponent = ProductScreen.Component ???
-
 @Screen(R.layout.screen_show_more)
 public class ShowMoreScreen extends AbstractScreen<CatalogScreen.Component>
         implements TreeKey {

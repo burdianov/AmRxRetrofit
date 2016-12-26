@@ -9,6 +9,7 @@ import com.testography.am_mvp.R;
 import com.testography.am_mvp.data.network.RestService;
 import com.testography.am_mvp.data.network.res.ProductRes;
 import com.testography.am_mvp.data.network.res.RestCallTransformer;
+import com.testography.am_mvp.data.storage.dto.CommentDto;
 import com.testography.am_mvp.data.storage.dto.ProductDto;
 import com.testography.am_mvp.data.storage.dto.ProductLocalInfo;
 import com.testography.am_mvp.data.storage.dto.UserAddressDto;
@@ -130,7 +131,7 @@ public class DataManager {
                         deleteFromDb(productRes);
                     }
                 })
-                .filter(productRes -> productRes.isActive())
+                .filter(ProductRes::isActive)
                 .doOnNext(productRes -> {
                     saveOnDisk(productRes);
                 })
@@ -225,58 +226,61 @@ public class DataManager {
 
     private List<ProductDto> generateMockData() {
         List<ProductDto> productDtoList = getPreferencesManager().getProductList();
+        List<CommentDto> commentList = new ArrayList<>();
+        commentList.add(new CommentDto());
+
         if (productDtoList == null) {
             productDtoList = new ArrayList<>();
             productDtoList.add(new ProductDto(1, "disk " +
                     getResVal(R.string.product_name_1),
                     getResVal(R.string.product_url_1),
                     getResVal
-                            (R.string.lorem_ipsum), 100, 1, false));
+                            (R.string.lorem_ipsum), 100, 1, false, commentList));
             productDtoList.add(new ProductDto(2, "disk " +
                     getResVal(R.string.product_name_2),
                     getResVal(R.string.product_url_2),
                     getResVal
-                            (R.string.lorem_ipsum), 100, 1, false));
+                            (R.string.lorem_ipsum), 100, 1, false, commentList));
             productDtoList.add(new ProductDto(3, "disk " +
                     getResVal(R.string.product_name_3),
                     getResVal(R.string.product_url_3),
                     getResVal
-                            (R.string.lorem_ipsum), 100, 1, false));
+                            (R.string.lorem_ipsum), 100, 1, false, commentList));
             productDtoList.add(new ProductDto(4, "disk " +
                     getResVal(R.string.product_name_4),
                     getResVal(R.string.product_url_4),
                     getResVal
-                            (R.string.lorem_ipsum), 100, 1, false));
+                            (R.string.lorem_ipsum), 100, 1, false, commentList));
             productDtoList.add(new ProductDto(5, "disk " +
                     getResVal(R.string.product_name_5),
                     getResVal(R.string.product_url_5),
                     getResVal
-                            (R.string.lorem_ipsum), 100, 1, false));
+                            (R.string.lorem_ipsum), 100, 1, false, commentList));
             productDtoList.add(new ProductDto(6, "disk " +
                     getResVal(R.string.product_name_6),
                     getResVal(R.string.product_url_6),
                     getResVal
-                            (R.string.lorem_ipsum), 100, 1, false));
+                            (R.string.lorem_ipsum), 100, 1, false, commentList));
             productDtoList.add(new ProductDto(7, "disk " +
                     getResVal(R.string.product_name_7),
                     getResVal(R.string.product_url_7),
                     getResVal
-                            (R.string.lorem_ipsum), 100, 1, false));
+                            (R.string.lorem_ipsum), 100, 1, false, commentList));
             productDtoList.add(new ProductDto(8, "disk " +
                     getResVal(R.string.product_name_8),
                     getResVal(R.string.product_url_8),
                     getResVal
-                            (R.string.lorem_ipsum), 100, 1, false));
+                            (R.string.lorem_ipsum), 100, 1, false, commentList));
             productDtoList.add(new ProductDto(9, "disk " +
                     getResVal(R.string.product_name_9),
                     getResVal(R.string.product_url_9),
                     getResVal
-                            (R.string.lorem_ipsum), 100, 1, false));
+                            (R.string.lorem_ipsum), 100, 1, false, commentList));
             productDtoList.add(new ProductDto(10, "disk " +
                     getResVal(R.string.product_name_10),
                     getResVal(R.string.product_url_10),
                     getResVal
-                            (R.string.lorem_ipsum), 100, 1, false));
+                            (R.string.lorem_ipsum), 100, 1, false, commentList));
         }
         return productDtoList;
     }

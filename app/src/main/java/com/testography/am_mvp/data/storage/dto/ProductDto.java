@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.testography.am_mvp.data.network.res.ProductRes;
 
+import java.util.List;
+
 public class ProductDto implements Parcelable {
     private int id;
     private String productName;
@@ -13,9 +15,11 @@ public class ProductDto implements Parcelable {
     private int price;
     private int count;
     private boolean favorite;
+    private List<CommentDto> comments = null;
 
     public ProductDto(int id, String productName, String imageUrl,
-                      String description, int price, int count, boolean favorite) {
+                      String description, int price, int count, boolean favorite,
+                      List<CommentDto> comments) {
         this.id = id;
         this.productName = productName;
         this.imageUrl = imageUrl;
@@ -23,6 +27,7 @@ public class ProductDto implements Parcelable {
         this.price = price;
         this.count = count;
         this.favorite = favorite;
+        this.comments = comments;
     }
 
     //region ==================== Parcelable ===================
@@ -72,6 +77,7 @@ public class ProductDto implements Parcelable {
         parcel.writeString(description);
         parcel.writeInt(price);
         parcel.writeInt(count);
+        parcel.writeInt(favorite ? 1 : 0);
     }
     //endregion
 
@@ -101,10 +107,15 @@ public class ProductDto implements Parcelable {
         this.price = price;
     }
 
+    public void setComments(List<CommentDto> comments) {
+        this.comments = comments;
+    }
+
     //endregion
 
 
     //region ==================== Getters ===================
+
     public int getId() {
         return id;
     }
@@ -139,6 +150,10 @@ public class ProductDto implements Parcelable {
 
     public void setFavorite(boolean favorite) {
         this.favorite = favorite;
+    }
+
+    public List<CommentDto> getComments() {
+        return this.comments;
     }
 
     //endregion

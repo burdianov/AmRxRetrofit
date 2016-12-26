@@ -39,7 +39,6 @@ public class CatalogModel extends AbstractModel {
 
     public ProductDto getProductById(int productId) {
         return mDataManager.getPreferencesManager().getProductById(productId);
-//        return mDataManager.getProductById(productId);
     }
 
     public void updateProduct(ProductDto product) {

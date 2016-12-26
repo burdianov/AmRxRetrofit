@@ -1,13 +1,23 @@
 package com.testography.am_mvp.data.network.res;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+import com.testography.am_mvp.data.storage.dto.CommentDto;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProductRes {
     private int remoteId;
     private String productName;
     private String imageUrl;
     private String description;
     private int price;
-    private float raiting;
+    @SerializedName("raiting")
+    @Expose
+    private float rating;
     private boolean active;
+    private List<CommentDto> comments = null;
 
     public int getRemoteId() {
         return remoteId;
@@ -29,11 +39,23 @@ public class ProductRes {
         return price;
     }
 
-    public float getRaiting() {
-        return raiting;
+    public float getRating() {
+        return rating;
     }
 
     public boolean isActive() {
         return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public List<CommentDto> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<CommentDto> comments) {
+        this.comments = comments;
     }
 }

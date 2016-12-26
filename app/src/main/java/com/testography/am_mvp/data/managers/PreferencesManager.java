@@ -161,6 +161,7 @@ public class PreferencesManager {
                     productDto.setImageUrl(productRes.getImageUrl());
                     productDto.setDescription(productRes.getDescription());
                     productDto.setPrice(productRes.getPrice());
+                    productDto.setComments(productRes.getComments());
                 }
             }
             if (!found) {
@@ -170,7 +171,7 @@ public class PreferencesManager {
                         productRes.getImageUrl(),
                         productRes.getDescription(),
                         productRes.getPrice(),
-                        0, false);
+                        0, false, productRes.getComments());
                 productDtoList.add(productDto);
             }
         } else {
@@ -180,7 +181,7 @@ public class PreferencesManager {
                     productRes.getImageUrl(),
                     productRes.getDescription(),
                     productRes.getPrice(),
-                    0, false);
+                    0, false, productRes.getComments());
             productDtoList = new ArrayList<>();
             productDtoList.add(productDto);
         }
