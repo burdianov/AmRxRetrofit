@@ -61,12 +61,13 @@
 
                             <RatingBar
                                 android:id="@+id/rating_bar_comments"
-                                style="@style/Widget.AppCompat.RatingBar.Small"
+                                android:theme="@style/RatingBar"
+                                style="?android:attr/ratingBarStyleSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:numStars="5"
-                                android:rating="5"
+                                android:rating="3.5"
                                 android:stepSize="0.5"/>
                         </RelativeLayout>
 

@@ -212,4 +212,8 @@
         <item name="android:focusable">false</item>
     </style>
 
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/color_grey_darker</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+    </style>
 </resources>
