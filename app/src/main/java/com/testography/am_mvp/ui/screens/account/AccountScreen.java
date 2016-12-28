@@ -206,8 +206,10 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
         }
 
         public void updateListView() {
-            getView().getAdapter().reloadAdapter();
-            subscribeOnAddressesObs();
+            if (getView() != null) {
+                getView().getAdapter().reloadAdapter();
+                subscribeOnAddressesObs();
+            }
         }
 
         private void subscribeOnSettingsObs() {
@@ -225,7 +227,9 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
 
         @Override
         public void clickOnAddress() {
-            Flow.get(getView()).set(new AddressScreen(null));
+            if (getView() != null) {
+                Flow.get(getView()).set(new AddressScreen(null));
+            }
         }
 
         @Override
@@ -332,8 +336,10 @@ public class AccountScreen extends AbstractScreen<RootActivity.RootComponent> {
 
         @Override
         public void editAddress(int position) {
-            Flow.get(getView()).set(new AddressScreen(mAccountModel
-                    .getAddressFromPosition(position)));
+            if (getView() != null) {
+                Flow.get(getView()).set(new AddressScreen(mAccountModel
+                        .getAddressFromPosition(position)));
+            }
         }
 
         @Nullable

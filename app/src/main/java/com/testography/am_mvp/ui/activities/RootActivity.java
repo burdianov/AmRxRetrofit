@@ -13,13 +13,11 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -76,7 +74,6 @@ public class RootActivity extends AppCompatActivity implements IRootView,
 
     private AlertDialog.Builder mExitDialog;
 
-
     @Override
     protected void attachBaseContext(Context newBase) {
         newBase = Flow.configure(newBase, this)
@@ -110,15 +107,6 @@ public class RootActivity extends AppCompatActivity implements IRootView,
 
         mRootPresenter.takeView(this);
         mRootPresenter.initView();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        MenuItem item = menu.findItem(R.id.badge);
-        MenuItemCompat.setActionView(item, R.layout.badge_layout);
-
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -167,7 +155,6 @@ public class RootActivity extends AppCompatActivity implements IRootView,
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
         Object key = null;
         switch (item.getItemId()) {
             case R.id.nav_account:
@@ -189,6 +176,18 @@ public class RootActivity extends AppCompatActivity implements IRootView,
         mDrawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mRootPresenter.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        mRootPresenter.onRequestPermissionResult(requestCode, permissions, grantResults);
     }
 
     //region ==================== IRootView ===================
@@ -268,29 +267,13 @@ public class RootActivity extends AppCompatActivity implements IRootView,
     @RootScope
     public interface RootComponent {
         void inject(RootActivity activity);
-
         void inject(SplashActivity activity);
-
         void inject(RootPresenter presenter);
 
         AccountModel getAccountModel();
-
         RootPresenter getRootPresenter();
-
         Picasso getPicasso();
-
     }
+
     //endregion
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        mRootPresenter.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        mRootPresenter.onRequestPermissionResult(requestCode, permissions, grantResults);
-    }
 }

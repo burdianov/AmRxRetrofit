@@ -131,13 +131,17 @@ public class ProductScreen extends AbstractScreen<CatalogScreen.Component> {
         }
 
         public void clickFavorite() {
-            ProductLocalInfo pli = getView().getProductLocalInfo();
-            pli.setRemoteId(mProduct.getId());
-            mCatalogModel.updateProductLocalInfo(pli);
+            if (getView() != null) {
+                ProductLocalInfo pli = getView().getProductLocalInfo();
+                pli.setRemoteId(mProduct.getId());
+                mCatalogModel.updateProductLocalInfo(pli);
+            }
         }
 
         public void clickShowMore() {
-            Flow.get(getView()).set(new ShowMoreScreen(mProduct));
+            if (getView() != null) {
+                Flow.get(getView()).set(new ShowMoreScreen(mProduct));
+            }
         }
     }
 
