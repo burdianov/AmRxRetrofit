@@ -49,7 +49,6 @@ public class ScreenScoper {
 
     @Nullable
     private static String getParentScopeName(AbstractScreen screen) {
-
         try {
             String genericName = ((Class) ((ParameterizedType) screen.getClass()
                     .getGenericSuperclass()).getActualTypeArguments()[0]).getName();

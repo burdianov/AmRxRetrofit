@@ -1,6 +1,7 @@
 package com.testography.am_mvp.utils;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,17 +10,17 @@ import android.widget.EditText;
 
 import com.testography.am_mvp.R;
 
-public class CustomTextWatcher implements TextWatcher {
+public class FieldsValidator implements TextWatcher {
 
     private final EditText mEditText;
     private final Context mContext;
     private final Button mLoginButton;
     private TextInputLayout mTextInputLayout;
 
-    public CustomTextWatcher(Context context, EditText editText, Button
+    public FieldsValidator(Context context, EditText editText, @Nullable Button
             loginButton) {
-        mEditText = editText;
         mContext = context;
+        mEditText = editText;
         mLoginButton = loginButton;
         mTextInputLayout = (TextInputLayout) mEditText.getParent().getParent();
     }

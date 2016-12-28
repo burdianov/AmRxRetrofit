@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.testography.am_mvp.R;
 import com.testography.am_mvp.di.DaggerService;
 import com.testography.am_mvp.mvp.views.IAuthView;
+import com.testography.am_mvp.utils.FieldsValidator;
 
 import javax.inject.Inject;
 
@@ -54,6 +55,7 @@ public class AuthView extends RelativeLayout implements IAuthView {
     ImageButton mVK;
 
     private AuthScreen mScreen;
+    private FieldsValidator mEmailValidator;
 
     public AuthView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -67,6 +69,7 @@ public class AuthView extends RelativeLayout implements IAuthView {
     }
 
     //region ==================== flow view lifecycle callbacks ===================
+
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
@@ -75,6 +78,9 @@ public class AuthView extends RelativeLayout implements IAuthView {
         if (!isInEditMode()) {
             showViewFromState();
         }
+
+        mEmailValidator = new FieldsValidator(getContext(), mEmailEt, null);
+        mEmailEt.addTextChangedListener(mEmailValidator);
     }
 
     @Override
@@ -92,6 +98,7 @@ public class AuthView extends RelativeLayout implements IAuthView {
             mPresenter.dropView(this);
         }
     }
+
     //endregion
 
     private void showViewFromState() {
@@ -131,6 +138,7 @@ public class AuthView extends RelativeLayout implements IAuthView {
     }
 
     //region ==================== Events ===================
+
     @OnClick(R.id.login_btn)
     void loginClick() {
         mPresenter.clickOnLogin();
@@ -155,10 +163,11 @@ public class AuthView extends RelativeLayout implements IAuthView {
     void catalogClick() {
         mPresenter.clickOnShowCatalog();
     }
+
     //endregion
 
-
     //region ==================== IAuthView ===================
+
     @Override
     public void showLoginBtn() {
         mLoginBtn.setVisibility(VISIBLE);
@@ -230,5 +239,6 @@ public class AuthView extends RelativeLayout implements IAuthView {
             return false;
         }
     }
+
     //endregion
 }
