@@ -9,8 +9,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:padding="@dimen/line_size_2">
+        android:clipToPadding="false">
 
         <ListView
             android:id="@+id/list_view"
